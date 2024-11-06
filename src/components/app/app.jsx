@@ -1,20 +1,20 @@
 import { React, useState, useEffect } from 'react'
-import styles from './App.module.scss'
-import BurgerIngredients from './components/burger-ingredients/burger-ingredients'
+import styles from './app.module.scss'
+import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 //import { ingredientsMock } from './utils/data'
-import { orderMock } from './utils/orderMock'
-import BurgerConstructor from './components/burger-constructor/burger-constructor'
+import { orderMock } from '../../utils/orderMock'
+import BurgerConstructor from '../burger-constructor/burger-constructor'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 //import './App.css'
 //import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 //import Modal from './components/modal/modal';
-import Loader from './components/loader/loader';
+import Loader from '../loader/loader';
 import {
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import AppHeader from "./components/app-header/app-header";
+import AppHeader from "../app-header/app-header";
 
 
 function App() {
@@ -84,7 +84,7 @@ function App() {
       }
       {
         load && !err && (
-          <Loader></Loader>
+          <Loader />
         )
       }
       {

@@ -11,13 +11,13 @@ function ModalOverlay({ children, closeModal }) {
     }
   }
 
-  const closeModelEsc = (e) => {
-    if (e.key === 'Escape') {
-      closeModal();
-    }
-  }
-
   React.useEffect(() => {
+    const closeModelEsc = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    }
+
     document.addEventListener('keydown', closeModelEsc)
     return  () => document.removeEventListener('keydown', closeModelEsc)
   }, [])

@@ -28,7 +28,7 @@ function BurgerConstructor ({ ingredients, order }) {
         <ul className={styles.order}>
           {order.map((item, index) => {
             return (
-              <li key={index} className={styles.listItem} style={{'width': '100%'}}>
+              <li key={index} className={styles.listItem}>
                 <BurgerConstructorItem item={item} />
               </li>
             )
