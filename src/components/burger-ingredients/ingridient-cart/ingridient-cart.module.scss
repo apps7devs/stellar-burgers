@@ -1,0 +1,26 @@
+.ingredientCart {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  width: 274px;
+}
+
+.image{
+  width: 240px;
+  align-self: center;
+}
+
+.ingredientCart:hover {
+  background-color: rgba(50, 50, 50, 0.2);
+}
+
+.cost {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.details{
+  text-align: center;
+}

@@ -1,0 +1,32 @@
+.section {
+  width: 600px;
+}
+
+.orderWrapper{
+  display: flex;
+  max-height: calc(100vh - 480px);
+  min-height: 305px;
+  max-width: 100%;
+}
+.order {
+  list-style-type: none;
+  margin: 16px auto;
+  padding: 0 8px 0 0;
+  width: fit-content;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: auto;
+  row-gap: 16px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.order li {
+  cursor: pointer;
+}
+
+.summary {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

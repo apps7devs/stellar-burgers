@@ -1,0 +1,39 @@
+.header {
+    background: #1c1c21;
+}
+
+.header_nav{
+    display: flex;
+}
+
+.header_nav > section {
+    flex: 1;
+    flex-basis: 33.33%;
+    display: flex;
+}
+
+.header_nav .left {
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.header_nav .logo {
+    justify-content: center;
+}
+
+.header_nav .right {
+    justify-content: flex-end;
+}
+
+.nav_link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #f2f2f3;
+}
+
+.nav_link:hover span, .nav_link:hover svg{
+    color: #fff;
+    fill: #fff;
+}
