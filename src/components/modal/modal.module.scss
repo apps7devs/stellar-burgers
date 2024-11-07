@@ -1,0 +1,30 @@
+.modalContainer {
+    width: 720px;
+    height: fit-content;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(28, 28, 33, 1);
+    border-radius: 40px;
+    border: 1px solid rgba(76, 76, 255, 0.2);
+    z-index: 1;
+  }
+  
+  .headerModal {
+    width: 640px;
+    min-height: 64px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .close {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }

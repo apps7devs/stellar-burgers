@@ -1,0 +1,14 @@
+.item {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  max-width: 568px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+
+.borderItem {
+  margin-left: 8px;
+}

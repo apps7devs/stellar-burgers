@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  padding: 0 15px;
+  margin: 0 auto;
+  max-width: 1280px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #8585AD;
+}
+  
+/* для Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #2F2F37;
+
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}

@@ -1,0 +1,30 @@
+.ingredientCart {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.num{
+  color: #fff;
+  text-shadow:
+      0 0 7px #333,
+      0 0 10px #333,
+      /*0 0 21px #fff,*/
+      0 0 42px #4C4CFF,
+      0 0 82px #4C4CFF,
+      /*0 0 92px #4C4CFF,
+      0 0 102px #4C4CFF,
+      0 0 151px #4C4CFF;*/
+}
+
+.statusIco {
+  width: 120px;
+  height: 120px;
+}
+
+.ingredientCart > h4, img, p{
+  align-self: center;
+}
