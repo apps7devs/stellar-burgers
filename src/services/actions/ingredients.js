@@ -1,4 +1,4 @@
-import {api as apiUrl} from '../../utils/commons'
+import {api as apiUrl, fetchStatus} from '../../utils/commons'
 
 export const SET_INGREDIENTS = 'SET_INGREDIENTS'
 export const SET_ERR_INGREDIENTS = 'SET_ERR_INGREDIENTS'
@@ -9,13 +9,10 @@ export const COUNTER_INCRM = 'COUNTER_INCRM';
 export const COUNTER_DECRM = 'COUNTER_DECRM';
 export const COUNTERS_RESET = 'COUNTERS_RESET';
 
-export function getIngridients() {
+export function getIngredients() {
   return function (dispatch) {
     fetch(`${apiUrl}/ingredients`)
-      .then(res => {
-        if (res.ok) return res.json()
-        return Promise.reject(`err :: ${res.status}`)
-      })
+      .then(res => fetchStatus(res))
       .then(({ success, data }) => {
         if (success) return data
         return Promise.reject(`err :: ${data}`)
@@ -28,7 +25,6 @@ export function getIngridients() {
       })
       .catch(err => {
         console.log('err :: ', err.message)
-        //setErr(true)
         dispatch({
             type: SET_ERR_INGREDIENTS,
             errIngredients: true
@@ -41,7 +37,6 @@ export function getIngridients() {
                 type: SET_LOAD_INGREDIENTS,
                 loadIngredients: false
             })
-          //setLoad(false)
         }, 1000);//сервер предоставляющий api "слишком" шустрый =), лоадера не видно
       })
   }

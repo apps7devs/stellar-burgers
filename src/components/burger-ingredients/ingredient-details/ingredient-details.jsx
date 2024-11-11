@@ -1,10 +1,4 @@
-//import React from "react";
 import styles from './ingredient-details.module.scss';
-/*import {
-  Counter,
-  CurrencyIcon
-} from '@ya.praktikum/react-developer-burger-ui-components'*/
-//import { itemPropTypes } from "../../../utils/PropTypes";
 import { useSelector } from "react-redux";
 
 function IngredientDetails () {
@@ -24,8 +18,5 @@ function IngredientDetails () {
   )
 }
 
-/*IngredientDetails.propTypes = {
-  item: itemPropTypes.isRequired
-}*/
 
 export default IngredientDetails;

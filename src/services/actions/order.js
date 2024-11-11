@@ -1,4 +1,4 @@
-import {api as apiUrl} from '../../utils/commons'
+import {api as apiUrl, fetchStatus} from '../../utils/commons'
 
 export const ORDER_REQUEST_LOAD = 'ORDER_REQUEST_LOAD';
 export const ORDER_REQUEST_ERR = 'ORDER_REQUEST_ERR';
@@ -8,7 +8,7 @@ export const ORDER_DETAILS_RESET = 'ORDER_DETAILS_RESET';
 
 
 export function placeOrder(orderBody) {
-  return function (dispatch) {
+  return (dispatch) => {
     dispatch({
         type:ORDER_REQUEST_LOAD,
         status: true
@@ -20,38 +20,35 @@ export function placeOrder(orderBody) {
       },
       body: JSON.stringify({ "ingredients": orderBody }),
     })
-    .then(res => {
-      if (res.ok) return res.json()
-        return Promise.reject(`err 01 :: ${res.status}`)
+    .then(res => fetchStatus(res))
+    .then(({ success, order, name }) => {
+      if (success) return {order, name}
+      return Promise.reject(`err 02 :: ${order}`)
+    })
+    .then(data => {
+      dispatch({
+        type: SET_ORDER_DATA,
+        orderData: data
       })
-      .then(({ success, order, name }) => {
-        if (success) return {order, name}
-        return Promise.reject(`err 02 :: ${order}`)
+    })
+    .catch(err => {
+      console.log('err 03 :: ', err.message)
+      dispatch({
+        type: ORDER_REQUEST_ERR,
+        status: true
       })
-      .then(data => {
+    })
+    .finally(() => {
+      setTimeout(() => {
         dispatch({
-           type: SET_ORDER_DATA,
-           orderData: data
+          type: ORDER_REQUEST_LOAD,
+          status: false
         })
-      })
-      .catch(err => {
-        console.log('err 03 :: ', err.message)
         dispatch({
-            type: ORDER_REQUEST_ERR,
-            status: true
+          type: ORDER_DETAILS_MODAL,
+          show: true
         })
-      })
-      .finally(() => {
-        setTimeout(() => {
-          dispatch({
-            type: ORDER_REQUEST_LOAD,
-            status: false
-          })
-          dispatch({
-            type: ORDER_DETAILS_MODAL,
-            show: true
-          })
-        }, 1000);//сервер предоставляющий api "слишком" шустрый =), лоадера не видно
-      })
+      }, 1000);//сервер предоставляющий api "слишком" шустрый =), лоадера не видно
+    })
   }
 }

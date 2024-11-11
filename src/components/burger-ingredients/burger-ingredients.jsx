@@ -2,7 +2,6 @@ import { useRef } from "react";
 import styles from './burger-ingredients.module.scss';
 import IngridientCart from './ingridient-cart/ingridient-cart';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-//import { ingredientsPropTypes } from "../../utils/PropTypes";
 
 import Modal from '../../components/modal/modal';
 import IngredientDetails from './ingredient-details/ingredient-details';
@@ -37,7 +36,7 @@ function BurgerIngredients () {
     fillings: useRef(0)
   };
   
-  function slideTabContentScroll() {
+  const slideTabContentScroll = () => {
     requestAnimationFrame(()=>{
       const sequenceTab = ['buns', 'sauces', 'fillings'],
             container = catCategoriesContainer.current.getBoundingClientRect().top
@@ -59,7 +58,7 @@ function BurgerIngredients () {
   const handleTabClick = (tab) => {
     requestAnimationFrame(()=>{
       let allItemOfCategoriesHeight = 0,
-      allItemOfCategoriesPositions = {};
+          allItemOfCategoriesPositions = {};
       for(let i in allItemOfCategories) {
         allItemOfCategoriesHeight += allItemOfCategories[i].current.offsetHeight;
         allItemOfCategoriesPositions[allItemOfCategories[i].current.id] = allItemOfCategoriesHeight;
@@ -97,7 +96,7 @@ function BurgerIngredients () {
                   <h3 className={`${styles.text} ${styles.header} text  text_type_main-medium pt-2 pb-6`}>{cat.catName}</h3>
                   <ul className={`${styles.ingridientsList}`}>
                     {
-                      cat.catData.map(function(ingridient){
+                      cat.catData.map((ingridient)=>{
                         return (
                           <li key={ingridient._id} className="mb-8" onClick={()=>{setSelectIngredient(ingridient);}}>
                             <IngridientCart
@@ -126,9 +125,5 @@ function BurgerIngredients () {
     </section>
   )
 }
-
-/*BurgerIngredients.propTypes = {
-  ingredients: ingredientsPropTypes
-};*/
 
 export default BurgerIngredients;

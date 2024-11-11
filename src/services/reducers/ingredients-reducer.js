@@ -85,7 +85,6 @@ import {
               return item._id === action.item._id
             })
             if(itemType === 'bun'){
-              //cat.catData.map((bun) => { return bun.count = 0 });//clear
               cat.catData[currentItem]['count'] = 0;
             } else {
               if(cat.catData[currentItem]['count']) {
@@ -116,14 +115,14 @@ import {
   }
 
 
-  function ingridientsSortProcess (rawData) {
+  const ingridientsSortProcess = (rawData) => {
 
     return [
       {
         catName: 'Булки',
         catType: 'buns',
         itemType: 'bun',
-        catData: rawData.filter(function(item) {
+        catData: rawData.filter((item)=> {
           return item.type === "bun"
         })
       },
@@ -131,7 +130,7 @@ import {
         catName: 'Соусы',
         catType: 'sauces',
         itemType: 'sauce',
-        catData: rawData.filter(function(item) {
+        catData: rawData.filter((item)=> {
           return item.type === "sauce"
         })      
       },
@@ -139,7 +138,7 @@ import {
         catName: 'Начинки',
         catType: 'fillings',
         itemType: 'main',
-        catData: rawData.filter(function(item) {
+        catData: rawData.filter((item)=> {
           return item.type === "main"
         })
       }

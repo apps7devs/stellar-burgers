@@ -3,8 +3,6 @@ import {useDispatch, useSelector} from 'react-redux'
 import styles from './app.module.scss'
 
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
-//import { ingredientsMock } from '../../utils/data'
-//import { orderMock } from '../../utils/orderMock'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
 
 import Loader from '../loader/loader';
@@ -18,7 +16,7 @@ import AppHeader from "../app-header/app-header";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import {getIngridients} from "../../services/actions/ingredients"
+import {getIngredients} from "../../services/actions/ingredients"
 
 
 function App() {
@@ -28,7 +26,7 @@ function App() {
 
   const {errIngredients, loadIngredients} = useSelector(store=>store.ingredients)
 
-  useEffect(() => { dispatch(getIngridients()) }, [fetchCounter])
+  useEffect(() => { dispatch(getIngredients()) }, [fetchCounter])
 
 
   return (

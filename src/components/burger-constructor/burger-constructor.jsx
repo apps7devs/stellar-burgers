@@ -3,12 +3,10 @@ import { useDrop } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './burger-constructor.module.scss';
 import BurgerConstructorItem from "./order-item/order-item";
-//import { order } from "../../utils/orderMock";
 import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-//import { ingredientsPropTypes } from "../../utils/PropTypes";
 
 import Modal from '../../components/modal/modal';
 import OrderDetails from './order-details/order-details';
@@ -39,7 +37,7 @@ function BurgerConstructor () {
     })
   });
   
-  function onDropHandler(ingredient)  {
+  const onDropHandler = (ingredient) => {
     const { item } = ingredient;
     if (!item.uid) {
       if (item.type !== 'bun') {
@@ -93,7 +91,6 @@ function BurgerConstructor () {
     }
  }, [ingredients, bun])
 
-  //const [orderDetails, setOrderDetails] = useState(false)
 
   const {orderDetailsModal, orderRequestLoad} = useSelector(store=>store.placeOrder);
   const setOrderDetailsModal = (show)=>{
@@ -176,10 +173,5 @@ function BurgerConstructor () {
     </section>
   )
 }
-
-/*BurgerConstructor.propTypes = {
-  ingredients: ingredientsPropTypes,
-  order: ingredientsPropTypes
-}*/
 
 export default BurgerConstructor;
