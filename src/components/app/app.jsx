@@ -1,14 +1,10 @@
 import { React, useState, useEffect } from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import styles from './app.module.scss'
+
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
-//import { ingredientsMock } from './utils/data'
-import { orderMock } from '../../utils/orderMock'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
-//import reactLogo from './assets/react.svg'
-//import viteLogo from '/vite.svg'
-//import './App.css'
-//import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-//import Modal from './components/modal/modal';
+
 import Loader from '../loader/loader';
 import {
   Button
@@ -16,53 +12,21 @@ import {
 
 import AppHeader from "../app-header/app-header";
 
+//DND
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+import {getIngredients} from "../../services/actions/ingredients"
+
 
 function App() {
-  const [ingredients, setIngredients] = useState([]);
-  const [load, setLoad] = useState(true)
-  const [err, setErr] = useState(false)
+  const dispatch = useDispatch();
+
   const [fetchCounter, setFetchCounter] = useState(0)
 
-  const url = 'https://norma.nomoreparties.space/api/ingredients';
+  const {errIngredients, loadIngredients} = useSelector(store=>store.ingredients)
 
-  useEffect(() => {
-    
-    fetch(url)
-      .then(res => {
-        if (res.ok) return res.json()
-        return Promise.reject(`err :: ${res.status}`)
-      })
-      .then(({ success, data }) => {
-        if (success) return data
-        return Promise.reject(`err :: ${data}`)
-      })
-      .then(data => {
-        setIngredients(data)
-      })
-      .catch(err => {
-        console.log('err :: ', err.message)
-        setErr(true)
-        
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setLoad(false)
-        }, 1000);//сервер предоставляющий api "слишком" шустрый =), лоадера не видно
-
-      })
-
-      //на случай если снова глобально сеть ляжет, можно локально обойтись данными и чего-нибудь покодить
-      /*setIngredients(ingredientsMock);
-      setLoad(false)
-      setErr(false)*/
-
-  }, [fetchCounter])
-
-  const handleFetchRetry = ()=>{
-    setErr(false);
-    setLoad(true);
-    setFetchCounter(fetchCounter+1);
-  }
+  useEffect(() => { dispatch(getIngredients()) }, [fetchCounter])
 
 
   return (
@@ -70,28 +34,25 @@ function App() {
     <AppHeader />
     <div className='container'>
       {
-        !load && !err && (
+        !loadIngredients && !errIngredients && (
         <main className={styles.main}>
-          <BurgerIngredients
-            ingredients={ingredients}
-          />
-          <BurgerConstructor
-            ingredients={ingredients}
-            order={orderMock}
-          />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
         </main>
       )
       }
       {
-        load && !err && (
-          <Loader />
+        loadIngredients && !errIngredients && (
+          <Loader extraClass="pt-10 pb-10" />
         )
       }
       {
-        err && !load && (
+        errIngredients && !loadIngredients && (
           <>
             <h3 className='text text_type_main-default text_color_inactive mt-5'>Ошибка запроса....</h3>
-            <p><Button type="primary" size="small" htmlType="button" onClick={()=>{handleFetchRetry()}}>
+            <p><Button type="primary" size="small" htmlType="button" onClick={()=>{setFetchCounter(fetchCounter+1)}}>
               <span className='text text_type_main-default text_color_inactive '>Попробовать еще раз</span>
                </Button>
             </p>

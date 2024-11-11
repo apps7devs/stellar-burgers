@@ -1,4 +1,3 @@
-// Общий компонент для всех модалок
 import ReactDOM from 'react-dom';
 import styles from './modal.module.scss';
 import ModalOverlay from "./modal-overlay/modal-overlay";

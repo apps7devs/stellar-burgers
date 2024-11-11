@@ -14,7 +14,14 @@
     "@ya.praktikum/react-developer-burger-ui-components": "^1.14.2",
     "core-js": "^3.38.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.3.1",
+    "react-redux": "^9.1.2",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
+    "uuid": "^11.0.2",
+    "web-vitals": "^4.2.4"
   },
   "devDependencies": {
     "sass": "^1.80.5",
