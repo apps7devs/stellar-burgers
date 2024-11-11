@@ -1,5 +1,4 @@
-// сюда впихивается все содержание модалки через компонент Modal, а еще тут всякие хэндлеры для закрытия модалок
-import React from "react";
+import { useEffect } from 'react';
 import styles from './modal-overlay.module.scss'
 import PropTypes from 'prop-types';
 
@@ -11,7 +10,7 @@ function ModalOverlay({ children, closeModal }) {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const closeModelEsc = (e) => {
       if (e.key === 'Escape') {
         closeModal();

@@ -1,18 +1,21 @@
 .section {
   width: 600px;
+  min-height: 305px;
+  display: flex;
+  flex-direction: column;
+  
 }
 
 .orderWrapper{
   display: flex;
-  max-height: calc(100vh - 480px);
-  min-height: 305px;
+  max-height: calc(100vh - 540px);
   max-width: 100%;
 }
 .order {
   list-style-type: none;
   margin: 16px auto;
   padding: 0 8px 0 0;
-  width: fit-content;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: auto;
@@ -22,12 +25,34 @@
 }
 
 .order li {
-  cursor: pointer;
-  width: 100%;
+  cursor: move;
 }
 
 .summary {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.loader {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.dropPlace{
+  flex-grow: 1;
+}
+
+.dropPlaceActive {
+  background: rgba(100, 100, 100, 0.2);
+  border-radius: 30px;
+  box-shadow:
+      0 0 7px #333,
+      0 0 10px #333,
+      /*0 0 21px #fff,*/
+      0 0 42px #4C4CFF,
+      0 0 62px #4C4CFF,
+      /*0 0 92px #4C4CFF,
+      0 0 102px #4C4CFF,
+      0 0 151px #4C4CFF;*/
 }
