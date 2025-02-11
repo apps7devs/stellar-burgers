@@ -6,6 +6,11 @@ export const SET_ORDER_DATA = 'SET_ORDER_DATA';
 export const ORDER_DETAILS_MODAL = 'ORDER_DETAILS_MODAL';
 export const ORDER_DETAILS_RESET = 'ORDER_DETAILS_RESET';
 
+export const ORDER_SUBMIT_SUCCESS = 'ORDER_SUBMIT_SUCCESS';
+export const ORDER_SUBMIT_FAILURE = 'ORDER_SUBMIT_FAILURE';
+export const SET_ORDER_MODAL_VISIBLE = 'SET_ORDER_MODAL_VISIBLE';
+export const SET_ORDER_MODAL_INVISIBLE = 'SET_ORDER_MODAL_INVISIBLE';
+
 
 export function placeOrder(orderBody) {
   return (dispatch) => {
@@ -45,7 +50,7 @@ export function placeOrder(orderBody) {
           status: false
         })
         dispatch({
-          type: ORDER_DETAILS_MODAL,
+          type: SET_ORDER_MODAL_VISIBLE,
           show: true
         })
       }, 1000);//сервер предоставляющий api "слишком" шустрый =), лоадера не видно

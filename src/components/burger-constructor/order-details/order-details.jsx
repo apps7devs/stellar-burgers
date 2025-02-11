@@ -1,11 +1,11 @@
 import React from "react";
 import styles from './order-details.module.scss';
 import successIco from '../../../images/success.svg'
-import { useSelector } from "react-redux";
+//import { useSelector } from "react-redux";
 
-function OrderProcess () {
+function OrderProcess ({orderNumber}) {
 
-  const {orderNumber} = useSelector(store=>store.placeOrder)
+  //const {orderNumber} = useSelector(store=>store.placeOrder)
 
   return (
     <article className={`${styles.ingredientCart}`}>

@@ -23,7 +23,7 @@ import {
         return {
           ...store,
           ingredientsSort: ingridientsSortProcess(action.ingredients),
-          //ingredientsRaw: action.ingredients
+          ingredients: action.ingredients
         }
       }
       case SET_ERR_INGREDIENTS: {
