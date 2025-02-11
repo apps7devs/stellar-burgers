@@ -10,17 +10,17 @@ import { getCookie } from '../../utils/cookie';
 const ForgotPasswordPage = () => {
   const [email, setEmail] = React.useState('');
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { forgot_password_success } = useSelector(
     state => state.user
   );
 
   React.useEffect(() => {
     if (forgot_password_success) {
-      history.replace({pathname: '/reset-password', state: { forgotPassword: true}})
+      navigate('/reset-password', { state:{forgotPassword:true}, replace: true})
       dispatch({ type: CLEAR_FORGOT_PASSWORD_STATE })
     }
-  }, [history, forgot_password_success, dispatch])
+  }, [navigate, forgot_password_success, dispatch])
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);

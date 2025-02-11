@@ -1,22 +1,23 @@
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from "react-router-dom";
 
-const ProtectedRoute = ({ component}) => {
-  const { isLoggedIn, loggingIn } = useSelector(store => store.user);
+const ProtectedRoute = ({ onlyUnAuth = false, children}) => {
     const location = useLocation();
-    if(!loggingIn){
-      if(isLoggedIn){
-        return component
-      } else {
-        return (
-          <Navigate to='/login' state={{ from: location.pathname }} />
-        )
-      }
-    } else {
-      return (
-        <Navigate to='/login' state={{ from: location }} />
-      )
+    const isLoggedIn = useSelector((store) => store.user.isLoggedIn);
+
+    if (onlyUnAuth && isLoggedIn) {
+        const fromPage = location.state?.from || '/';
+
+        return <Navigate to={fromPage} />
     }
+
+    if (!onlyUnAuth && !isLoggedIn) {
+        return (
+            <Navigate to='/login' state={{ from: location.pathname }} />
+        )
+    }
+
+    return children
 }
 
 export default ProtectedRoute;

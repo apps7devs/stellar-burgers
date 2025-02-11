@@ -72,13 +72,13 @@ function ModalSwitch() {
         <Routes >
           <Route path="*" element={<NotFoundPage/>} />
           <Route path="/" element={<MainPage/>} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/login" element={<ProtectedRoute onlyUnAuth >{<LoginPage />}</ProtectedRoute>} />
+          <Route path="/register" element={<ProtectedRoute onlyUnAuth >{<RegisterPage />}</ProtectedRoute>} />
+          <Route path="/forgot-password" element={<ProtectedRoute onlyUnAuth>{<ForgotPasswordPage />}</ProtectedRoute>} />
+          <Route path="/reset-password" element={<ProtectedRoute onlyUnAuth>{<ResetPasswordPage />}</ProtectedRoute>} />
           <Route
             path="/profile"
-            element={<ProtectedRoute component={<ProfilePage />} />}
+            element={<ProtectedRoute >{<ProfilePage />}</ProtectedRoute>}
            />
           <Route path="/ingredients/" element={<IngredientPage />} />
           {from ? (

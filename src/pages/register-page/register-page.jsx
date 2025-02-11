@@ -36,7 +36,6 @@ const RegisterPage = () => {
   }
 
   const onSubmit = (e) => {
-    alert('submit')
     e.preventDefault();
     dispatch(register(name, email, password));
     clearState();

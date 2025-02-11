@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { resetPassword, CLEAR_RESET_PASSWORD_STATE } from '../../services/actions/user';
 import styles from './reset-password-page.module.scss';
 import EnteringForm from '../../components/entering-form/entering-form';
@@ -12,17 +12,18 @@ const ResetPasswordPage = () => {
   const [password, setPassword] = React.useState('');
   const [token, setToken] = React.useState('');
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { reset_password_success } = useSelector(
     state => state.user
   );
 
   React.useEffect(() => {
     if (reset_password_success) {
-      history.replace({ pathname: '/login' })
+      navigate('/login')
       dispatch({ type: CLEAR_RESET_PASSWORD_STATE })
     }
-  }, [history, reset_password_success, dispatch])
+  }, [navigate, reset_password_success, dispatch])
 
   const handleTokenChange = (e) => {
     setToken(e.target.value);
@@ -36,12 +37,11 @@ const ResetPasswordPage = () => {
     e.preventDefault();
     dispatch(resetPassword(password, token));
   }
-
   React.useEffect(() => {
-    if (history?.location?.pathname === '/reset-password' && !history?.location?.state?.forgotPassword) {
-      history.replace({pathname: '/login'})
+    if (location?.pathname === '/reset-password' && !location?.state?.forgotPassword) {
+      navigate('/login', {replace: true})
     }
-  }, [history.location.pathname])
+  }, [location.pathname])
 
 
   return (
