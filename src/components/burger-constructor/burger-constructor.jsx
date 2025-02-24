@@ -8,7 +8,9 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import Modal from '../../components/modal/modal';
+import PropTypes from 'prop-types';
+
+//import Modal from '../../components/modal/modal';
 import OrderDetails from './order-details/order-details';
 
 import { SET_ITEM, SEQUENCE_ELEMENTS, SET_BUN, CLEAR_INGREDIENTS } from '../../services/actions/constructor';
@@ -16,10 +18,14 @@ import { ORDER_DETAILS_MODAL, ORDER_DETAILS_RESET, placeOrder } from '../../serv
 import { COUNTER_INCRM, COUNTERS_RESET } from '../../services/actions/ingredients';
 import { v4 as generateUid } from 'uuid';
 
-
 import Loader from '../loader/loader';
 
-function BurgerConstructor () {
+import { useNavigate } from 'react-router-dom';
+
+function BurgerConstructor ({ openModal }) {
+  const { isLoggedIn } = useSelector(store => store.user);
+
+  const navigate = useNavigate()
 
   const dispatch = useDispatch();
   const { bun, ingredients } = useSelector(
@@ -93,7 +99,7 @@ function BurgerConstructor () {
 
 
   const {orderDetailsModal, orderRequestLoad} = useSelector(store=>store.placeOrder);
-  const setOrderDetailsModal = (show)=>{
+  /*const setOrderDetailsModal = (show)=>{
     dispatch({
       type: ORDER_DETAILS_MODAL,
       show: show
@@ -101,11 +107,17 @@ function BurgerConstructor () {
     dispatch({ type: COUNTERS_RESET })
     dispatch({ type: CLEAR_INGREDIENTS })
     dispatch({ type: ORDER_DETAILS_RESET })
-  }
+  }*/
   
   const placeOrderRun = () => {
     const bodyOrder = [bun._id, ...ingredients.map(item => item._id), bun._id];
-    dispatch(placeOrder(bodyOrder))
+
+    if (isLoggedIn) {
+      ingredients && openModal(bodyOrder)
+    } else {
+      navigate('/login', {replace: true})
+    }
+    //dispatch(placeOrder(bodyOrder))
   }
 
   return(
@@ -162,16 +174,20 @@ function BurgerConstructor () {
         </Button>
       </div>
       {
-        orderDetailsModal && (
+        /*orderDetailsModal && (
           <Modal
             title=""
             closeModal={()=>{setOrderDetailsModal(false)}}
             ><OrderDetails/>
           </Modal>
-        )
+        )*/
       }
     </section>
   )
+}
+
+BurgerConstructor.propTypes = {
+  openModal: PropTypes.func.isRequired,
 }
 
 export default BurgerConstructor;

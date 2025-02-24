@@ -3,28 +3,19 @@ import styles from './burger-ingredients.module.scss';
 import IngridientCart from './ingridient-cart/ingridient-cart';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import Modal from '../../components/modal/modal';
-import IngredientDetails from './ingredient-details/ingredient-details';
-
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from 'prop-types';
 
-import {SET_ACTIVE_TAB, SET_SELECT_INGRIDIENT} from '../../services/actions/ingredients'
+import {SET_ACTIVE_TAB} from '../../services/actions/ingredients'
 
-function BurgerIngredients () {
+function BurgerIngredients ({ openModal }) {
   const dispatch = useDispatch();
-  const { ingredientsSort, activeTab, selectIngredient } = useSelector(store=>store.ingredients
+  const { ingredientsSort, activeTab, selectIngredient } = useSelector(store=>store.allIngredients
   );
   const setActiveTab = (tabSelect)=>{
     dispatch({
       type: SET_ACTIVE_TAB,
       activeTab: tabSelect
-    })
-  }
-  
-  const setSelectIngredient = (selectIngredient)=>{
-    dispatch({
-      type: SET_SELECT_INGRIDIENT,
-      selectIngredient: selectIngredient
     })
   }
 
@@ -98,9 +89,10 @@ function BurgerIngredients () {
                     {
                       cat.catData.map((ingridient)=>{
                         return (
-                          <li key={ingridient._id} className="mb-8" onClick={()=>{setSelectIngredient(ingridient);}}>
+                          <li key={ingridient._id} className="mb-8">
                             <IngridientCart
                             item={ingridient}
+                            openModal={openModal}
                             />
                           </li>
                         )
@@ -113,17 +105,12 @@ function BurgerIngredients () {
           }
         </ul>
       </section>
-      {
-        selectIngredient && (
-          <Modal
-            title="Детали ингридиента"
-            closeModal={()=>{setSelectIngredient(null)}}
-            ><IngredientDetails/>
-          </Modal>
-        )
-      }
     </section>
   )
+  
 }
+BurgerIngredients.propTypes = {
+  openModal: PropTypes.func.isRequired,
+};
 
 export default BurgerIngredients;

@@ -1,3 +1,5 @@
+// Общий компонент для всех модалок
+import React from "react";
 import ReactDOM from 'react-dom';
 import styles from './modal.module.scss';
 import ModalOverlay from "./modal-overlay/modal-overlay";
@@ -6,11 +8,12 @@ import PropTypes from 'prop-types';
 
 const modalNode = document.getElementById('portal');
 
-function Modal ({children, closeModal, title}) {
-
+function Modal ({children, title, isModalVisible, closeModal}) {
+    
   return ReactDOM.createPortal (
     <ModalOverlay
       closeModal={closeModal}
+      isModalVisible={isModalVisible}
     >
       <div className={styles.modalContainer}>
         <header className={`${styles.headerModal} ml-10 mr-10 mt-10`}>
@@ -28,8 +31,9 @@ function Modal ({children, closeModal, title}) {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  title: PropTypes.string
+  title: PropTypes.string,
+  isModalVisible: PropTypes.bool,
+  closeModal: PropTypes.func.isRequired
 }
 
 export default Modal;
