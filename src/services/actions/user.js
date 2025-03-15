@@ -347,7 +347,7 @@ export function forgotPassword(email) {
 // восстановление пароля существующего пользователя (отправка нового пароля и кода из письма)
 export function resetPassword(password, token) {
   return function (dispatch) {
-    fetch(`${api}/reset-password/${token}`, {
+    fetch(`${api}/password-reset/reset`, {
       method: "POST",
       headers: {
         Accept: "application/json",
