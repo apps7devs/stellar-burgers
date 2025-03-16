@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { Navigate, useLocation } from "react-router-dom";
+import { TUserState } from '../../utils/types';
 
 interface IProtectedProps {
     onlyUnAuth?: boolean
@@ -8,7 +9,7 @@ interface IProtectedProps {
 
 const ProtectedRoute = ({ onlyUnAuth = false, children}: IProtectedProps): React.JSX.Element => {
     const location = useLocation();
-    const isLoggedIn = useSelector((store) => store.user.isLoggedIn);
+    const {isLoggedIn} = useSelector((store):TUserState => store.user!);
 
     if (onlyUnAuth && isLoggedIn) {
         const fromPage = location.state?.from || '/';

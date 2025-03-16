@@ -4,7 +4,7 @@ import {TModalOverLay} from '../../../utils/types'
 
 const ModalOverlay = ({ children, isModalVisible, closeModal }: TModalOverLay): React.JSX.Element => {
 
-  const closeModelOvl = (e: MouseEvent) => {
+  const closeModelOvl = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
@@ -21,7 +21,7 @@ const ModalOverlay = ({ children, isModalVisible, closeModal }: TModalOverLay): 
   }, [])
 
   return (
-    <div className={`${styles.container} ${isModalVisible ? styles.containerActive : ''}`} onClick={closeModelOvl}>
+    <div className={`${styles.container} ${isModalVisible ? styles.containerActive : ''}`} onClick={(e)=>closeModelOvl(e)}>
       {children}
     </div>
   )

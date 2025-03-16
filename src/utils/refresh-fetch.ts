@@ -1,6 +1,6 @@
-import { checkStatus } from "./checkStatus";
+import { checkStatus } from "./check-status";
 import { api } from "./commons";
-import { getCookie, setCookie } from "./cookie";
+import { getCookie, setCookie, deleteCookie } from "./cookie";
 import { TRefreshFetch } from "./types";
 
 const refreshToken = () => {
@@ -16,7 +16,6 @@ const refreshToken = () => {
     .then((res) => checkStatus(res))
 }
 
-// автопробрасывание рефреш-токена, если на запрос авторизации приходит ошибка 403
 export const refreshFetch: TRefreshFetch = async (url, options = {}) => {
   try {
     const res = await fetch(url, options);
@@ -25,6 +24,7 @@ export const refreshFetch: TRefreshFetch = async (url, options = {}) => {
     console.log(err)
     if (err === 'Ошибка 403. У вас недостаточно прав для просмотра содержимого') {
       const refreshData = await refreshToken();
+      deleteCookie('token')
       setCookie('token', refreshData.accessToken.split('Bearer ')[1]);
       options.headers!.authorization = refreshData.accessToken;
       const res = await fetch(url, options)

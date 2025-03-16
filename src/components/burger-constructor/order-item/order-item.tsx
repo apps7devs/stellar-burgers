@@ -4,9 +4,8 @@ import styles from './order-item.module.scss';
 import { ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
 
-import { useDispatch } from 'react-redux';
-import { REMOVE_ITEM } from '../../../services/actions/constructor';
-import { COUNTER_DECRM } from '../../../services/actions/ingredients';
+import { useDispatch } from '../../../services/hooks';
+import {counterDecrmAction, deleteItemAction} from '../../../services/actions/ingredients'
 import { useDrag, useDrop } from 'react-dnd';
 
 import {TBurgerConstructorItem, TConstructorIngredient} from '../../../utils/types'
@@ -53,20 +52,15 @@ const BurgerConstructorItem = ({ item, index, isTop, isBottom, isLocked, moveIte
 
 
   const removeItem = (item: TConstructorIngredient) => {
-    dispatch({
-      type: REMOVE_ITEM,
-      item: item
-    })
-    dispatch({
-      type: COUNTER_DECRM,
-      item: item
-    })
+    dispatch(deleteItemAction(item))
+    dispatch(counterDecrmAction(item))
   }
 
   return (
     <div className={`${styles.item} ${isTop || isBottom ? styles.borderItem : ''}`} ref={isLocked ? null : ref} style={{ opacity }}>
       {!isLocked && <DragIcon type="primary"/>}
       <ConstructorElement
+        /* @ts-ignore */
         type={isTop ? 'top' : isBottom ? 'bottom' : ''}
         isLocked={isLocked ? true : false}
         text={isTop ? item.name + ` верх` : isBottom ? item.name + ` низ` : item.name}

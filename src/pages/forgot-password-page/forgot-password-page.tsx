@@ -3,8 +3,9 @@ import styles from './forgot-password-page.module.scss';
 import EnteringForm from '../../components/entering-form/entering-form';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { forgotPassword, CLEAR_FORGOT_PASSWORD_STATE } from '../../services/actions/user';
+import { useDispatch, useSelector } from '../../services/hooks';
+import { TUserState } from '../../utils/types';
+import { forgotPassword, clearForgotPasswordStateAction } from '../../services/actions/user';
 import { getCookie } from '../../utils/cookie';
 
 const ForgotPasswordPage = (): React.JSX.Element => {
@@ -12,13 +13,13 @@ const ForgotPasswordPage = (): React.JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { forgot_password_success } = useSelector(
-    state => state.user
+    (state):TUserState => state.user!
   );
 
   React.useEffect(() => {
     if (forgot_password_success) {
       navigate('/reset-password', { state:{forgotPassword:true}, replace: true})
-      dispatch({ type: CLEAR_FORGOT_PASSWORD_STATE })
+      dispatch(clearForgotPasswordStateAction())
     }
   }, [navigate, forgot_password_success, dispatch])
 
@@ -45,6 +46,7 @@ const ForgotPasswordPage = (): React.JSX.Element => {
         onSubmit={onSubmit}
       >
         <div className="mb-6">
+          { /* @ts-ignore */}
           <Input
             type="email"
             name="email"

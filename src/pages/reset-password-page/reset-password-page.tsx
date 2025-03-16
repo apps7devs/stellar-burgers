@@ -1,7 +1,8 @@
 import React, {ChangeEvent, FormEvent} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
+import { TUserState } from '../../utils/types';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { resetPassword, CLEAR_RESET_PASSWORD_STATE } from '../../services/actions/user';
+import { resetPassword, clearResetPasswordStateAction } from '../../services/actions/user';
 import styles from './reset-password-page.module.scss';
 import EnteringForm from '../../components/entering-form/entering-form';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -15,13 +16,13 @@ const ResetPasswordPage = (): React.JSX.Element => {
   const navigate = useNavigate();
   const location = useLocation();
   const { reset_password_success } = useSelector(
-    state => state.user
+    (state):TUserState => state.user!
   );
 
   React.useEffect(() => {
     if (reset_password_success) {
       navigate('/login')
-      dispatch({ type: CLEAR_RESET_PASSWORD_STATE })
+      dispatch(clearResetPasswordStateAction())
     }
   }, [navigate, reset_password_success, dispatch])
 
@@ -52,6 +53,7 @@ const ResetPasswordPage = (): React.JSX.Element => {
         onSubmit={onSubmit}
       >
         <div className="mb-6">
+          { /* @ts-ignore */}
           <Input
             type="password"
             name="password"
@@ -63,6 +65,7 @@ const ResetPasswordPage = (): React.JSX.Element => {
           />
         </div>
         <div className="mt-6 mb-6">
+          { /* @ts-ignore */}
           <Input
             type="text"
             name="text"

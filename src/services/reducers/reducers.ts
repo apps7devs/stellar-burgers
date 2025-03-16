@@ -3,15 +3,17 @@ import {
     DELETE_CURRENT_INGREDIENT,
     SET_INGREDIENT_MODAL_VISIBLE,
     SET_INGREDIENT_MODAL_INVISIBLE
-  } from '../actions/current-ingredient';
+  } from '../../utils/commons';
 
-const initialCurrentIngrState = {
-    currentIngredient: '',
+  import { TInitialCurrentIngrState  } from '../../utils/types/reducers/reducers-types';
+  import { TAllIngredientsTypes } from '../../utils/types/actions/commons-types';
+
+const initialCurrentIngrState: TInitialCurrentIngrState = {
+    currentIngredient: undefined,
     ingredientModalVisibility: false
   }
 
-
-  export const currentIngredientReducer = (state = initialCurrentIngrState, action) => {
+  export const currentIngredientReducer = (state = initialCurrentIngrState, action:TAllIngredientsTypes) => {
     switch (action.type) {
       case SET_CURRENT_INGREDIENT: {
         return {

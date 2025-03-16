@@ -1,6 +1,6 @@
-import {useMemo, FC} from "react";
+import {useMemo} from "react";
 import { useDrop } from 'react-dnd';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import styles from './burger-constructor.module.scss';
 import BurgerConstructorItem from "./order-item/order-item";
 import {
@@ -8,10 +8,11 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import {TBurgerConstructorItem, TConstructorIngredient, TBurgerIngredients} from '../../utils/types'
+import {TBurgerConstructorItem, TConstructorIngredient, TBurgerIngredients, TUserState, TBurgerConstructorState} from '../../utils/types'
 
-import { SET_ITEM, SEQUENCE_ELEMENTS, SET_BUN, CLEAR_INGREDIENTS } from '../../services/actions/constructor';
-import { COUNTER_INCRM, COUNTERS_RESET } from '../../services/actions/ingredients';
+import {TInitialOrderState} from '../../utils/types/reducers/reducers-types'
+
+import {setItemAction, counterIncrmAction, sequenceElementsAction, setBunAction} from '../../services/actions/ingredients'
 import { v4 as generateUid } from 'uuid';
 
 import Loader from '../loader/loader';
@@ -21,14 +22,14 @@ import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element => {
   const { isLoggedIn } = useSelector(
-    store => store.user
+    (store): TUserState => store.user!
   );
 
   const navigate = useNavigate()
 
   const dispatch = useDispatch();
   const { bun, ingredients } = useSelector(
-    store => store.constructorOrder
+    (store): TBurgerConstructorState => store.constructorOrder!
   );
 
   //dropPlace works
@@ -48,23 +49,11 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
       if (item.type !== 'bun') {
         const refreshIngredient = { ...item }
         refreshIngredient.uid = generateUid();
-        dispatch({
-          type: SET_ITEM,
-          item: refreshIngredient
-        })
-        dispatch({
-          type: COUNTER_INCRM,
-          item: item
-        })
+        dispatch(setItemAction(refreshIngredient))
+        dispatch(counterIncrmAction(item))
       } else {
-        dispatch({
-          type: SET_BUN,
-          item: item
-        })
-        dispatch({
-          type: COUNTER_INCRM,
-          item: item
-        })
+        dispatch(setBunAction(item))
+        dispatch(counterIncrmAction(item))
       }
     }
   }
@@ -76,10 +65,7 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
       const refreshIngredients = [...ingredients];
       refreshIngredients.splice(dragIndex, 1);
       refreshIngredients.splice(hoverIndex, 0, draggedItem);
-      dispatch({
-        type: SEQUENCE_ELEMENTS,
-        ingredients: refreshIngredients
-      })
+      dispatch(sequenceElementsAction(refreshIngredients))
     } else {
       return
     }
@@ -97,7 +83,7 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
  }, [ingredients, bun])
 
 
-  const {orderRequestLoad} = useSelector(store=>store.placeOrder);
+  const {orderRequestLoad} = useSelector((store):TInitialOrderState=>store.placeOrder!);
   
   const placeOrderRun = () => {
     const bodyOrder: string[] = [bun._id, ...ingredients.map((item:TConstructorIngredient) => item._id), bun._id];
@@ -113,7 +99,7 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
     <section className={`${styles.section} mt-15 ml-10 `}>
       <div className={`pt-10 pb-10 ${styles.dropPlace} ${canDrop && styles.dropPlaceActive}`} ref={dropTarget}>
       {
-        (!bun && !ingredients.lenght ) && (
+        (!bun && !ingredients.length ) && (
           <p className='ml-10 text text_type_main-medium text_color_inactive'>Перетащите ингредиенты сюда</p>
         )
       }
@@ -124,6 +110,7 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
             isTop={true}
             isBottom={false}
             isLocked={true}
+            moveItem={moveItem}
           />
         )
       }
@@ -147,6 +134,7 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
             isTop={false}
             isBottom={true}
             isLocked={true}
+            moveItem={moveItem}
           />
         )
       }

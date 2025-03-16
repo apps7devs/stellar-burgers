@@ -3,21 +3,19 @@ import styles from './burger-ingredients.module.scss';
 import IngridientCart from './ingridient-cart/ingridient-cart';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from '../../services/hooks';
 
-import {TOpenModal, TBaseIngredient} from '../../../utils/types'
+import {TOpenModal, TBaseIngredient} from '../../utils/types'
 
-import {SET_ACTIVE_TAB} from '../../services/actions/ingredients'
+import { TAllIngredientsState } from '../../utils/types';
+import {setCurrentTabAction} from '../../services/actions/ingredients'
 
 const BurgerIngredients = ({ openModal }:TOpenModal ): React.JSX.Element => {
   const dispatch = useDispatch();
-  const { ingredientsSort, activeTab, selectIngredient } = useSelector(store=>store.allIngredients
+  const { ingredientsSort, activeTab } = useSelector((store):TAllIngredientsState=>store.allIngredients!
   );
   const setActiveTab = (tabSelect:string)=>{
-    dispatch({
-      type: SET_ACTIVE_TAB,
-      activeTab: tabSelect
-    })
+    dispatch(setCurrentTabAction(tabSelect))
   }
 
   //refs
@@ -62,12 +60,6 @@ const BurgerIngredients = ({ openModal }:TOpenModal ): React.JSX.Element => {
     });
   }
 
-  type Render = {
-    catType:string,
-    catName: string,
-    catData:any
-  }
-
   return (
     <section className={styles.section}>
 
@@ -88,9 +80,9 @@ const BurgerIngredients = ({ openModal }:TOpenModal ): React.JSX.Element => {
       <section className={`${styles.ingridients}  ${styles.scrollIngredients}`} ref={catCategoriesContainer} onScroll={()=>{slideTabContentScroll()}}>
         <ul className={styles.ingridientsCatList}>
           {
-            ingredientsSort.map((cat:Render)=> {
+            ingredientsSort.map((cat:any)=> {
               return (
-                <li key={cat.catType} id={cat.catType} name="item_of_categories" ref={allItemOfCategories[cat.catType]}>
+                <li key={cat.catType} id={cat.catType} ref={allItemOfCategories[cat.catType]}>
                   <h3 className={`${styles.text} ${styles.header} text  text_type_main-medium pt-2 pb-6`}>{cat.catName}</h3>
                   <ul className={`${styles.ingridientsList}`}>
                     {

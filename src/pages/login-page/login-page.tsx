@@ -3,7 +3,8 @@ import styles from './login-page.module.scss';
 import EnteringForm from '../../components/entering-form/entering-form';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { login } from '../../services/actions/user';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
+import { TUserState } from '../../utils/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 
@@ -14,17 +15,15 @@ const LoginPage = (): React.JSX.Element => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const { isLoggedIn, loginError } = useSelector(
-    state => state.user
+    (state):TUserState => state.user!
   );
 
   React.useEffect(() => {
     if (isLoggedIn) {
-      console.log(location?.state)
       if (location?.state?.from) {
         navigate(location?.state?.from, {replace:true})
       } else {
         navigate("/", {replace:true})
-        console.log('1')
       }
     }
   }, [isLoggedIn])
@@ -57,6 +56,7 @@ const LoginPage = (): React.JSX.Element => {
         onSubmit={onSubmit}
       >
         <div className={styles.inputContainer}>
+          { /* @ts-ignore */}
           <Input
             type="email"
             name="email"
@@ -68,6 +68,7 @@ const LoginPage = (): React.JSX.Element => {
         </div>
 
         <div className={`mt-6 mb-6 ${styles.inputContainer}`}>
+          { /* @ts-ignore */}
           <Input
             type="password"
             name="password"

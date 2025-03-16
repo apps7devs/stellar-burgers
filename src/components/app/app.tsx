@@ -1,22 +1,16 @@
 import { useState, useEffect } from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from '../../services/hooks';
 import styles from './app.module.scss'
-
-/*import BurgerIngredients from '../burger-ingredients/burger-ingredients'
-import BurgerConstructor from '../burger-constructor/burger-constructor'*/
-
 import Loader from '../loader/loader';
-import {
-  Button
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import AppHeader from "../app-header/app-header";
 import MainPage from '../../pages/main-page/main-page';
 
-
 import Modal from '../modal/modal';
 import ModalIngredient from '../modal-ingredient/modal-ingredient';
 
+import { ModalOrderInfo } from '../modal-order-info/modal-order-info';
 
 import {getIngredients} from "../../services/actions/ingredients"
 
@@ -26,11 +20,18 @@ import LoginPage from '../../pages/login-page/login-page';
 import RegisterPage from '../../pages/register-page/register-page';
 import ForgotPasswordPage from '../../pages/forgot-password-page/forgot-password-page';
 import ResetPasswordPage from '../../pages/reset-password-page/reset-password-page';
+import { FeedPage } from '../../pages/feed-page/feed-page';
+import { PersonalFeed } from '../personal-feed/personal-feed';
+import { OrderDetailsPage } from '../../pages/order-details-page/order-details-page';
+import { ProfilePersonalData } from '../profile-personal-data/profile-personal-data';
 
 import ProtectedRoute from '../protected-route/protected-route';
+import { setFeedModalVisibilityAction } from '../../services/actions/ws-actions';
 
-
-import { SET_INGREDIENT_MODAL_INVISIBLE, DELETE_CURRENT_INGREDIENT } from '../../services/actions/current-ingredient';
+import {
+  setIngredientModalVisibleAction,
+  deleteCurrentIngredientAction
+} from '../../services/actions/ingredients';
 
 
 import { getUser } from '../../services/actions/user';
@@ -38,7 +39,7 @@ import { getUser } from '../../services/actions/user';
 import { BrowserRouter as Router,  Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { getCookie } from '../../utils/cookie';
 
-
+import { TInitialCurrentIngrState  } from '../../utils/types/reducers/reducers-types';
 
 const ModalSwitch = (): React.JSX.Element => {
   let location = useLocation();
@@ -48,21 +49,24 @@ const ModalSwitch = (): React.JSX.Element => {
   const from = location.state && location.state.from;
 
   const { ingredientModalVisibility } = useSelector(
-    state  => state.currentIngredient
+    (state):TInitialCurrentIngrState  => state.currentIngredient!
   );
 
-  // close ingridient modal
-  const handleCloseIngredientModal = () => {
-    dispatch({
-      type: SET_INGREDIENT_MODAL_INVISIBLE,
-    })
-    dispatch({
-      type: DELETE_CURRENT_INGREDIENT
-    })
+  const { orderFeedModalVisibility } = useSelector(
+    (state) => state.ws!
+  );
+
+  const handleCloseOrderFeedModal = () => {
+    dispatch(setFeedModalVisibilityAction(false))
     navigate(-1)
   }
 
-  // 
+  // close ingridient modal
+  const handleCloseIngredientModal = () => {
+    dispatch(setIngredientModalVisibleAction())
+    dispatch(deleteCurrentIngredientAction())
+    navigate(-1)
+  }
 
   return (
     <div>
@@ -75,9 +79,15 @@ const ModalSwitch = (): React.JSX.Element => {
           <Route path="/register" element={<ProtectedRoute onlyUnAuth >{<RegisterPage />}</ProtectedRoute>} />
           <Route path="/forgot-password" element={<ProtectedRoute onlyUnAuth>{<ForgotPasswordPage />}</ProtectedRoute>} />
           <Route path="/reset-password" element={<ProtectedRoute onlyUnAuth>{<ResetPasswordPage />}</ProtectedRoute>} />
-          <Route
+          <Route 
             path="/profile"
-            element={<ProtectedRoute >{<ProfilePage />}</ProtectedRoute>}
+            element={<ProtectedRoute  >{<ProfilePage hint=""><ProfilePersonalData /></ProfilePage>}</ProtectedRoute>}
+           />
+          <Route
+            path="/profile/orders"
+            element={<ProtectedRoute >{<ProfilePage
+              hint='В этом разделе вы можете просмотреть свою историю заказов'
+            >{<PersonalFeed />}</ProfilePage>}</ProtectedRoute>}
            />
           <Route path="/ingredients/" />
           {from ? (
@@ -93,6 +103,38 @@ const ModalSwitch = (): React.JSX.Element => {
                         />
                     ) : (
                         <Route path='ingredients/:ingredientId' element={<ModalIngredient />} />
+                    )}          
+          <Route
+            path="/feed"
+            element={<FeedPage />}
+           />
+           {from ? (
+                        <Route
+                            path="/feed/:id"
+                            element={
+                                <Modal closeModal={handleCloseOrderFeedModal} 
+                                isModalVisible={orderFeedModalVisibility}
+                                title=''>
+                                    <ModalOrderInfo isPage={false}/>
+                                </Modal>
+                            }
+                        />
+                    ) : (
+                        <Route path='/feed/:id' element={<OrderDetailsPage />} />
+                    )}
+            {from ? (
+                        <Route
+                            path="/profile/orders/:id"
+                            element={
+                                <Modal closeModal={handleCloseOrderFeedModal} 
+                                isModalVisible={orderFeedModalVisibility}
+                                title=''>
+                                    <ModalOrderInfo isPage={false}/>
+                                </Modal>
+                            }
+                        />
+                    ) : (
+                        <Route path='/profile/orders/:id' element={<OrderDetailsPage/>} />
                     )}
       </Routes>
       </div>
@@ -105,7 +147,7 @@ const ModalSwitch = (): React.JSX.Element => {
 function App() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector(
-    state => state.user
+    (state) => state.user!
   );
 
   useEffect(() => {
@@ -119,7 +161,7 @@ function App() {
   //get data ingridients from api
   const [fetchCounter, setFetchCounter] = useState(0)
   const {errIngredients, loadIngredients} = useSelector(
-    state => state.allIngredients
+    state => state.allIngredients!
   )
   useEffect(() => { dispatch(getIngredients()) }, [fetchCounter])
 

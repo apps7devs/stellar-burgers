@@ -1,0 +1,21 @@
+.inputsForm {
+  width: 640px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttonsContainer {
+  width: 320px;
+  height: 56px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.submitButton {
+  margin-right: 20px;
+}
