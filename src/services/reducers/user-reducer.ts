@@ -32,7 +32,7 @@ import {
 const initialUserState = {
   user: {},
   isLoggedIn: false,
-  loggingIn: true,
+  loggingIn: false,
   registerError: "",
   loginError: "",
   forgotPassowrdError: "",

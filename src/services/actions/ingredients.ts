@@ -105,9 +105,10 @@ export function getIngredients() {
         
       })
       .finally(() => {
-        setTimeout(() => {
-            dispatch(setLoadIngredientsAction())
-        }, 1000);//сервер предоставляющий api "слишком" шустрый =), лоадера не видно
+        dispatch(setLoadIngredientsAction())
+        // setTimeout(() => {
+        //     dispatch(setLoadIngredientsAction())
+        // }, 1000);//сервер предоставляющий api "слишком" шустрый =), лоадера не видно
       })
   }
 }

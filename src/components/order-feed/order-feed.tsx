@@ -14,7 +14,7 @@ export const OrderFeed = ({ data, isFeed }:TOrderFeed): React.JSX.Element => {
             return (
               <li key={item._id}>
                 <Link to={`${item._id}`} 
-                  state = {{ from: location }}
+                  state = {{ background: location }}
                   key={item._id}
                   className={styles.link}
                 >

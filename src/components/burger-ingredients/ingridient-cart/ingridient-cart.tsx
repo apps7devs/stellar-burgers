@@ -29,7 +29,7 @@ const IngredientCart = ({ item, openModal }: TBurgerIngredientCart): React.JSX.E
     <Link
       className={styles.link}
       to={`ingredients/${ingredientId}`}
-      state={{ from: location }}
+      state={{ background: location }}
     >
     <article className={`${styles.ingredientCart} ${isDrag && styles.cartOnDrag}`} ref={dragRef} onClick={() => openModal(item)}>
       <img alt={item.name} src={item.image} className={styles.image} />

@@ -1,10 +1,8 @@
-import { type } from 'os';
 import { 
   SET_INGREDIENTS,
   SET_ERR_INGREDIENTS,
   SET_LOAD_INGREDIENTS,
   SET_ACTIVE_TAB,
-  //SET_SELECT_INGRIDIENT,
   COUNTER_INCRM,
   COUNTER_DECRM,
   COUNTERS_RESET
@@ -55,12 +53,6 @@ import {
           activeTab: action.activeTab
         }
       }
-      /*case SET_SELECT_INGRIDIENT:
-        console.log(action.selectIngredient)
-        return {
-          ...store,
-          selectIngredient: action.selectIngredient
-      }*/
       case COUNTER_INCRM: {
         const refreshIngridients = [...store.ingredientsSort];
 

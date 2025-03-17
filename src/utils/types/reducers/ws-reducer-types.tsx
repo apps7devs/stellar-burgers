@@ -3,5 +3,6 @@ export type TWSState = {
   responseData: any;
   wsError?: Event;
   currentFeedId: string | null;
-  orderFeedModalVisibility: boolean
+  orderFeedModalVisibility: boolean;
+  loaderWS: boolean
 }

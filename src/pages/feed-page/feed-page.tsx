@@ -6,11 +6,13 @@ import { WSConnectionStartAction, WSConnectionClosedAction } from '../../service
 import { useDispatch, useSelector } from '../../services/hooks';
 import { TWSState } from '../../utils/types/reducers/ws-reducer-types';
 
+import Loader from '../../components/loader/loader'
+
 
 export const FeedPage = (): React.JSX.Element => {
   const dispatch = useDispatch();
 
-  const { responseData } = useSelector(
+  const { responseData, loaderWS } = useSelector(
     (state): TWSState => state.ws!
   );
 
@@ -26,11 +28,13 @@ export const FeedPage = (): React.JSX.Element => {
     <h2 className={`${styles.header} text text_type_main-large mt-8 mb-4`}>Лента заказов</h2>
     <div>
       <div className={styles.data}>
+        {loaderWS && (<Loader extraClass=''></Loader>)}
+  
         {
-          responseData &&
+         !loaderWS && responseData &&
           <div className={styles.sectionContainer}>
             <OrderFeed
-              data={responseData.orders}
+              data={responseData?.orders}
               pathname='/feed/'
               isFeed={true}
             />

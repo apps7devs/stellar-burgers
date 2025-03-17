@@ -15,6 +15,7 @@ const initialWSState: TWSState = {
   wsError: undefined,
   orderFeedModalVisibility: false,
   currentFeedId: null,
+  loaderWS: true
 };
 
 export const wsReducer = (state: TWSState = initialWSState, action: TWSTypes) => {
@@ -22,22 +23,26 @@ export const wsReducer = (state: TWSState = initialWSState, action: TWSTypes) =>
     case WS_CONNECTION_SUCCESS:
       return {
         ...state,
-        wsConnected: true
+        wsConnected: true,
+        loaderWS: true
       };
     case WS_CONNECTION_ERROR:
       return {
         ...state,
-        wsConnected: false
+        wsConnected: false,
+        loaderWS: true
       };
     case WS_CONNECTION_CLOSED:
       return {
         ...state,
-        wsConnected: false
+        wsConnected: false,
+        loaderWS: true
       };
     case WS_GET_MESSAGE:
       return {
         ...state,
-        responseData: action.responseData
+        responseData: action.responseData,
+        loaderWS: false
       }
     case WS_GET_CURRENTFEEDID:
       return {
@@ -49,7 +54,6 @@ export const wsReducer = (state: TWSState = initialWSState, action: TWSTypes) =>
         ...state,
         orderFeedModalVisibility: action.orderFeedModalVisibility,
         currentFeedId: null
-
       }
     default:
       return state;

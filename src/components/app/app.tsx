@@ -25,7 +25,7 @@ import { PersonalFeed } from '../personal-feed/personal-feed';
 import { OrderDetailsPage } from '../../pages/order-details-page/order-details-page';
 import { ProfilePersonalData } from '../profile-personal-data/profile-personal-data';
 
-import ProtectedRoute from '../protected-route/protected-route';
+import { OnlyUnAuth, OnlyAuth } from '../protected-route/protected-route';
 import { setFeedModalVisibilityAction } from '../../services/actions/ws-actions';
 
 import {
@@ -42,11 +42,11 @@ import { getCookie } from '../../utils/cookie';
 import { TInitialCurrentIngrState  } from '../../utils/types/reducers/reducers-types';
 
 const ModalSwitch = (): React.JSX.Element => {
-  let location = useLocation();
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const from = location.state && location.state.from;
+  const background = location.state && location.state.background;
 
   const { ingredientModalVisibility } = useSelector(
     (state):TInitialCurrentIngrState  => state.currentIngredient!
@@ -72,25 +72,23 @@ const ModalSwitch = (): React.JSX.Element => {
     <div>
       <AppHeader />
       <div className='container'>
-        <Routes >
+        <Routes location={background || location}>
           <Route path="*" element={<NotFoundPage/>} />
           <Route path="/" element={<MainPage/>} />
-          <Route path="/login" element={<ProtectedRoute onlyUnAuth >{<LoginPage />}</ProtectedRoute>} />
-          <Route path="/register" element={<ProtectedRoute onlyUnAuth >{<RegisterPage />}</ProtectedRoute>} />
-          <Route path="/forgot-password" element={<ProtectedRoute onlyUnAuth>{<ForgotPasswordPage />}</ProtectedRoute>} />
-          <Route path="/reset-password" element={<ProtectedRoute onlyUnAuth>{<ResetPasswordPage />}</ProtectedRoute>} />
-          <Route 
-            path="/profile"
-            element={<ProtectedRoute  >{<ProfilePage hint=""><ProfilePersonalData /></ProfilePage>}</ProtectedRoute>}
-           />
-          <Route
-            path="/profile/orders"
-            element={<ProtectedRoute >{<ProfilePage
-              hint='В этом разделе вы можете просмотреть свою историю заказов'
-            >{<PersonalFeed />}</ProfilePage>}</ProtectedRoute>}
-           />
-          <Route path="/ingredients/" />
-          {from ? (
+          <Route path="/login" element={<OnlyUnAuth component={<LoginPage />} />} />
+          <Route path="/register" element={<OnlyUnAuth component={<RegisterPage />} />} />
+          <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
+          <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
+          <Route path="/profile" element={<OnlyAuth component={<ProfilePage hint=""><ProfilePersonalData /></ProfilePage>} />}/>
+          <Route path="/profile/orders" element={<OnlyAuth component={<ProfilePage hint='В этом разделе вы можете просмотреть свою историю заказов' >{<PersonalFeed />}</ProfilePage>}/>}/>
+          <Route path="/feed" element={<FeedPage />} />
+          <Route path='ingredients/:ingredientId' element={<ModalIngredient />} />
+          <Route path='/feed/:id' element={<OrderDetailsPage />} />
+          <Route path='/profile/orders/:id' element={<OnlyAuth component={<OrderDetailsPage />} />} />
+        </Routes>
+     
+        {background && (
+        <Routes>
                         <Route
                             path='ingredients/:ingredientId'
                             element={
@@ -101,15 +99,7 @@ const ModalSwitch = (): React.JSX.Element => {
                                 </Modal>
                             }
                         />
-                    ) : (
-                        <Route path='ingredients/:ingredientId' element={<ModalIngredient />} />
-                    )}          
-          <Route
-            path="/feed"
-            element={<FeedPage />}
-           />
-           {from ? (
-                        <Route
+                   <Route
                             path="/feed/:id"
                             element={
                                 <Modal closeModal={handleCloseOrderFeedModal} 
@@ -119,11 +109,7 @@ const ModalSwitch = (): React.JSX.Element => {
                                 </Modal>
                             }
                         />
-                    ) : (
-                        <Route path='/feed/:id' element={<OrderDetailsPage />} />
-                    )}
-            {from ? (
-                        <Route
+                     <Route
                             path="/profile/orders/:id"
                             element={
                                 <Modal closeModal={handleCloseOrderFeedModal} 
@@ -133,10 +119,8 @@ const ModalSwitch = (): React.JSX.Element => {
                                 </Modal>
                             }
                         />
-                    ) : (
-                        <Route path='/profile/orders/:id' element={<OrderDetailsPage/>} />
-                    )}
-      </Routes>
+        </Routes>)}
+      
       </div>
       
       
