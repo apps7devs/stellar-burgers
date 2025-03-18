@@ -12,6 +12,8 @@ export const ProfileNavigationBar = ({ hint }:TProfileNavigationBar): React.JSX.
   const handleExit = () => {
     dispatch(deleteUser());
     dispatch(clearSessionTerminationStateAction())
+    localStorage.removeItem('token')
+    localStorage.removeItem('refreshToken')
   }
 
   const dispatch = useDispatch();

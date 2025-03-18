@@ -14,7 +14,8 @@ const location = useLocation()
   React.useEffect(() => {
     location?.pathname.match('profile/orders')
     ? 
-    dispatch(WSConnectionStartAction(getCookie('token') as string))
+    //dispatch(WSConnectionStartAction(getCookie('token') as string))
+    dispatch(WSConnectionStartAction(localStorage.getItem('token') as string))
     :
     dispatch(WSConnectionStartAction('/all'));
   return() => {

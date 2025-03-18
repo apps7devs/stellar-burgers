@@ -32,7 +32,8 @@ const ForgotPasswordPage = (): React.JSX.Element => {
     dispatch(forgotPassword(email));
   }
 
-  if (getCookie('token')) {
+  //if (getCookie('token')) {
+  if (localStorage.getItem('token')) {
     return (
       <Navigate to='/'/>
     )

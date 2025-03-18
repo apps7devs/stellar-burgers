@@ -1,6 +1,7 @@
 import { useSelector } from '../../services/hooks';
 import { Navigate, useLocation } from "react-router-dom";
 import { TUserState } from '../../utils/types';
+import Loader from '../loader/loader';
 
 interface IProtectedProps {
     onlyUnAuth?: boolean
@@ -13,15 +14,19 @@ const Protected = ({
     component,
   }: IProtectedProps): React.JSX.Element => {
         const location = useLocation();
-        const {isLoggedIn} = useSelector((store):TUserState => store.user!);
+        const {isLoggedIn, loggingIn} = useSelector((store):TUserState => store.user!);
+
+        if (loggingIn) {
+          return <Loader extraClass="pt-10 pb-10" />
+        }
     
         if (onlyUnAuth && isLoggedIn) {
             const fromPage = location.state?.from || '/';
-    
+            
             return <Navigate to={fromPage} />
-        }
-    
-        if (!onlyUnAuth && !isLoggedIn) {
+          }
+          
+          if (!onlyUnAuth && !isLoggedIn) {
             return (
                 <Navigate to='/login' state={{ from: location.pathname }} />
             )

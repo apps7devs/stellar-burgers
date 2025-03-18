@@ -15,8 +15,10 @@ export const PersonalFeed = (): React.JSX.Element => {
   );
 
   React.useEffect(() => {
-    if (getCookie('token')) {
-      dispatch(WSConnectionStartAction(getCookie('token') as string));
+    //if (getCookie('token')) {
+    if (localStorage.getItem('token')) {
+      //dispatch(WSConnectionStartAction(getCookie('token') as string));
+      dispatch(WSConnectionStartAction(localStorage.getItem('token') as string));
     } else {
       dispatch(WSConnectionClosedAction())
     }

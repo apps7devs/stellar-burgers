@@ -115,7 +115,7 @@ const ModalSwitch = (): React.JSX.Element => {
                                 <Modal closeModal={handleCloseOrderFeedModal} 
                                 isModalVisible={orderFeedModalVisibility}
                                 title=''>
-                                    <ModalOrderInfo isPage={false}/>
+                                     <OnlyAuth component={<ModalOrderInfo isPage={false}/>} />
                                 </Modal>
                             }
                         />
@@ -135,7 +135,8 @@ function App() {
   );
 
   useEffect(() => {
-    if (getCookie('token') && !isLoggedIn) {
+    //if (getCookie('token') && !isLoggedIn) {
+    if (localStorage.getItem('token') && !isLoggedIn) {
       dispatch(getUser())
     }
   }, [])

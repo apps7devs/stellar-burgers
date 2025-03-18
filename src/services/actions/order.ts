@@ -69,7 +69,8 @@ export const placeOrder:TPlaceOrder = (orderBody) => {
       method: 'POST',
       headers: {
        'Content-Type': 'application/json',
-       authorization: `Bearer ${getCookie('token')}`
+       //authorization: `Bearer ${getCookie('token')}`
+       authorization: `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify({ "ingredients": orderBody }),
     })

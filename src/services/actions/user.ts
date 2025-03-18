@@ -230,8 +230,10 @@ export const login: TLogin = (email, password) => {
             authToken = res.accessToken.split('Bearer ')[1];
             refreshToken = res.refreshToken;
             if (authToken && refreshToken) {
-              setCookie('token', authToken);
-              setCookie('refreshToken', refreshToken);
+              // setCookie('token', authToken);
+              // setCookie('refreshToken', refreshToken);
+              localStorage.setItem('token', authToken);
+              localStorage.setItem('refreshToken', refreshToken);
             }
             dispatch(userLoginSuccessAction(res.user))
             dispatch(setLoginStateAction(true))
@@ -254,20 +256,21 @@ export const login: TLogin = (email, password) => {
   }
 
 export const getUser: TGetUser = () => {
+  console.log(123)
     return function (dispatch: AppDispatch) {
       dispatch(setLoggingInAction(true))
       refreshFetch(`${api}/auth/user`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${getCookie('token')}`
+          //authorization: `Bearer ${getCookie('token')}`
+          authorization: `Bearer ${localStorage.getItem('token')}`
         },
       })
         .then((res) => {
           dispatch(getUserSuccessAction())
           dispatch(setUserStateAction(res.user))
           dispatch(setUserLoggedInStateAction(true))
-  
         })
         .then(() => {
           dispatch(setLoggingInAction(false))
@@ -315,7 +318,8 @@ export const register: TRegister = (name, email, password) => {
 }
 
 export const deleteUser: TDeleteUser = () => {
-  const refreshToken = getCookie('refreshToken');
+  //const refreshToken = getCookie('refreshToken');
+  const refreshToken = localStorage.getItem('refreshToken');
   return function (dispatch: AppDispatch) {
     fetch(`${api}/auth/logout`, {
       method: "POST",
@@ -334,14 +338,22 @@ export const deleteUser: TDeleteUser = () => {
           dispatch(deleteUserStateAction())
           dispatch(setSessionTerminationStateAction(true))
           dispatch(setUserLoggedInStateAction(false))
-          deleteCookie('token');
-          deleteCookie('refreshToken');
+          // deleteCookie('token');
+          // deleteCookie('refreshToken');
+          //localStorage.removeItem('token')
+          //localStorage.removeItem('refreshToken')
         }
       })
       .catch((err) => {
         dispatch(sessionTerminationFailureAction(err))
         dispatch(setSessionTerminationStateAction(false))
         console.log(err);
+      })
+      .finally(()=>{
+        // deleteCookie('token');
+        // deleteCookie('refreshToken');
+        //localStorage.removeItem('token')
+        //localStorage.removeItem('refreshToken')
       })
   }
 }
@@ -352,7 +364,8 @@ export const updateUser: TUpdateUser = (userData) => {
       method: "PATCH",
       headers: {
         Accept: "application/json",
-        authorization: `Bearer ${getCookie('token')}`,
+        //authorization: `Bearer ${getCookie('token')}`,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
