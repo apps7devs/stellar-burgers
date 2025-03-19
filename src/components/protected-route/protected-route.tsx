@@ -1,28 +1,43 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { Navigate, useLocation } from "react-router-dom";
+import { TUserState } from '../../utils/types';
+import Loader from '../loader/loader';
 
 interface IProtectedProps {
     onlyUnAuth?: boolean
-    children: React.JSX.Element
+    component: React.JSX.Element
+    children?: React.JSX.Element
   }
 
-const ProtectedRoute = ({ onlyUnAuth = false, children}: IProtectedProps): React.JSX.Element => {
-    const location = useLocation();
-    const isLoggedIn = useSelector((store) => store.user.isLoggedIn);
+const Protected = ({
+    onlyUnAuth = false,
+    component,
+  }: IProtectedProps): React.JSX.Element => {
+        const location = useLocation();
+        const {isLoggedIn, loggingIn} = useSelector((store):TUserState => store.user!);
 
-    if (onlyUnAuth && isLoggedIn) {
-        const fromPage = location.state?.from || '/';
-
-        return <Navigate to={fromPage} />
+        if (loggingIn) {
+          return <Loader extraClass="pt-10 pb-10" />
+        }
+    
+        if (onlyUnAuth && isLoggedIn) {
+            const fromPage = location.state?.from || '/';
+            
+            return <Navigate to={fromPage} />
+          }
+          
+          if (!onlyUnAuth && !isLoggedIn) {
+            return (
+                <Navigate to='/login' state={{ from: location.pathname }} />
+            )
+        }
+    
+        return component
     }
-
-    if (!onlyUnAuth && !isLoggedIn) {
-        return (
-            <Navigate to='/login' state={{ from: location.pathname }} />
-        )
-    }
-
-    return children
-}
-
-export default ProtectedRoute;
+    
+export const OnlyAuth = Protected
+export const OnlyUnAuth = ({
+  component,
+}: {
+  component: React.JSX.Element
+}): React.JSX.Element => <Protected onlyUnAuth={true} component={component} />

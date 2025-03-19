@@ -1,0 +1,91 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.id {
+  text-align: left;
+  width: fit-content;
+  height: fit-content;
+  margin-top: -50px;
+  margin-right: auto;
+  margin-bottom: 40px;
+}
+
+.idModal {
+  margin-left: 40px;
+}
+
+.pageId {
+  margin-left: auto;
+}
+
+.orderName {
+  width: 640px;
+  min-height: 30px;
+  text-align: left;
+}
+
+.list {
+  width: 640px;
+  height: fit-content;
+  max-height: 312px;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.item:last-child {
+  margin-bottom: 0;
+}
+
+.status {
+  width: 640px;
+  height: 24px;
+  color: #00CCCC;
+  text-align: left;
+}
+
+.listTitle {
+  width: 640px;
+  height: 30px;
+  margin-top: 60px;
+  text-align: left;
+}
+
+.statusContainer {
+  width: 640px;
+  height: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.currencyContainer {
+  display: flex;
+  flex-direction: row;
+  min-width: 84px;
+}
+
+/* кастомизация скролла */
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
+
+.list::-webkit-scrollbar-thumb:hover {
+  background: #9a9ac7;
+}

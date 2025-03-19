@@ -3,21 +3,30 @@ import {
   SET_ERR_INGREDIENTS,
   SET_LOAD_INGREDIENTS,
   SET_ACTIVE_TAB,
-  SET_SELECT_INGRIDIENT,
   COUNTER_INCRM,
   COUNTER_DECRM,
   COUNTERS_RESET
-  } from "../actions/ingredients";
+} from '../../utils/commons';
+import {TBaseIngredient} from '../../utils/types'
 
-  const init = {
+import {TCatType} from '../../utils/types'
+
+
+import { TAllIngredientsTypes } from '../../utils/types/actions/commons-types';
+import {
+  TInitialAllIngredientsState,
+} from '../../utils/types/reducers/reducers-types';
+
+  const init:TInitialAllIngredientsState = {
     activeTab: 'buns',
     errIngredients: false,
     loadIngredients: true,
     selectIngredient: null,
-    orderedIngridients: {}
+    orderedIngridients: {},
+    ingredientsSort: []
   }
 
-  export const ingredientsReducer = (store = init, action) => {
+  export const ingredientsReducer = (store = init, action: TAllIngredientsTypes) => {
     switch (action.type) {
       case SET_INGREDIENTS: {
         return {
@@ -44,19 +53,14 @@ import {
           activeTab: action.activeTab
         }
       }
-      case SET_SELECT_INGRIDIENT:
-        return {
-          ...store,
-          selectIngredient: action.selectIngredient
-      }
       case COUNTER_INCRM: {
         const refreshIngridients = [...store.ingredientsSort];
 
         const itemType = action.item.type;
-
-        for(let cat of refreshIngridients){
+        let cat:TCatType = {catName: '', catType: '', itemType: '', catData: []}
+        for(cat of refreshIngridients){
           if(cat.itemType === itemType) {
-            const currentItem = cat.catData.findIndex((item) => {
+            const currentItem = cat.catData.findIndex((item:TBaseIngredient) => {
               return item._id === action.item._id
             })
             if(itemType === 'bun'){
@@ -79,9 +83,10 @@ import {
 
         const itemType = action.item.type;
 
-        for(let cat of refreshIngridients){
+        let cat:TCatType = {catName: '', catType: '', itemType: '', catData: []}
+        for(cat of refreshIngridients){
           if(cat.itemType === itemType) {
-            const currentItem = cat.catData.findIndex((item) => {
+            const currentItem = cat.catData.findIndex((item:TBaseIngredient) => {
               return item._id === action.item._id
             })
             if(itemType === 'bun'){
@@ -100,7 +105,8 @@ import {
       }
       case COUNTERS_RESET: {
         const refreshIngridients = [...store.ingredientsSort]
-        for(let cat of refreshIngridients){
+        let cat:TCatType = {catName: '', catType: '', itemType: '', catData: []}
+        for(cat of refreshIngridients) {
           cat.catData.map((item) => { return item.count = 0 })
         }
         return {
@@ -114,33 +120,31 @@ import {
     }
   }
 
+  const ingridientsSortProcess = (unsorted:TBaseIngredient[]) => {
+    const buns:TCatType = {
+      catName: 'Булки',
+      catType: 'buns',
+      itemType: 'bun',
+      catData: unsorted.filter((item:TBaseIngredient)=> {
+        return item.type === "bun"
+      })
+    }
+    const sauces:TCatType = {
+      catName: 'Соусы',
+      catType: 'sauces',
+      itemType: 'sauce',
+      catData: unsorted.filter((item:TBaseIngredient)=> {
+        return item.type === "sauce"
+      })
+    }
+    const fillings:TCatType =  {
+      catName: 'Начинки',
+      catType: 'fillings',
+      itemType: 'main',
+      catData: unsorted.filter((item:TBaseIngredient)=> {
+        return item.type === "main"
+      })
+    }
 
-  const ingridientsSortProcess = (rawData) => {
-
-    return [
-      {
-        catName: 'Булки',
-        catType: 'buns',
-        itemType: 'bun',
-        catData: rawData.filter((item)=> {
-          return item.type === "bun"
-        })
-      },
-      {
-        catName: 'Соусы',
-        catType: 'sauces',
-        itemType: 'sauce',
-        catData: rawData.filter((item)=> {
-          return item.type === "sauce"
-        })      
-      },
-      {
-        catName: 'Начинки',
-        catType: 'fillings',
-        itemType: 'main',
-        catData: rawData.filter((item)=> {
-          return item.type === "main"
-        })
-      }
-    ]
+    return [ buns, sauces, fillings ]
   }

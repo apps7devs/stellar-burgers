@@ -5,51 +5,41 @@ import Modal from '../../components/modal/modal';
 import ModalOrder from '../../components/modal-order/modal-order';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  SET_CURRENT_INGREDIENT,
-  SET_INGREDIENT_MODAL_VISIBLE,
-} from '../../services/actions/current-ingredient';
+import { useDispatch, useSelector } from '../../services/hooks';
 
-import {  CLEAR_INGREDIENTS } from '../../services/actions/constructor';
-import { COUNTERS_RESET } from '../../services/actions/ingredients';
+import { TBaseIngredient, TOrderState } from '../../utils/types';
+import {setCurrentIngredientAction, setIngredientModalVisibleAction} from '../../services/actions/ingredients'
 
 import {
-  ORDER_DETAILS_RESET,
-  SET_ORDER_MODAL_INVISIBLE,
-  placeOrder
-} from '../../services/actions/order';
+  setOrderModalInvisibleAction,
+  clearCountersAction,
+  orderDetailsResetAction,
+  clearIngredientsAction
+} from '../../services/actions/order'
+
+import { placeOrder } from '../../services/actions/order';
 
 const MainPage = (): React.JSX.Element => {
   const dispatch = useDispatch();
 
   const { orderNumber, orderError, orderModalVisibility } = useSelector(
-    state => state.placeOrder
+    (state):TOrderState => state.placeOrder!
   );
 
-  const handleOpenIngredientModal = (currentIngredient) => {
-    dispatch({
-      type: SET_CURRENT_INGREDIENT,
-      item: currentIngredient
-    })
-    dispatch({
-      type: SET_INGREDIENT_MODAL_VISIBLE,
-    })
+  const handleOpenIngredientModal = (currentIngredient: TBaseIngredient) => {
+    dispatch(setCurrentIngredientAction(currentIngredient))
+    dispatch(setIngredientModalVisibleAction())
   }
 
-  const handleOpenOrderModal = (info) => {
+  const handleOpenOrderModal = (info: string[]) => {
     dispatch(placeOrder(info, orderError))
   }
 
   const handleCloseOrderModal = () => {
-    dispatch({
-      type: SET_ORDER_MODAL_INVISIBLE
-    })
-    dispatch({ type: COUNTERS_RESET })
-    dispatch({ type: CLEAR_INGREDIENTS })
-    dispatch({
-      type: ORDER_DETAILS_RESET
-    })
+    dispatch(setOrderModalInvisibleAction())
+    dispatch(clearCountersAction())
+    dispatch(clearIngredientsAction())
+    dispatch(orderDetailsResetAction())
   }
 
   return (

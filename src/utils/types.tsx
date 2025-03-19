@@ -1,4 +1,31 @@
 import {FormEvent} from 'react'
+
+import { store } from '../services/store';
+
+import { TAllIngredientsTypes } from '../utils/types/actions/commons-types';
+export type TApplicationActions = | TAllIngredientsTypes | TOrderTypes | TUserTypes | TWSTypes;
+import { TOrderTypes } from './types/actions/order-types';
+import { TUserTypes } from './types/actions/user-types';
+import { TWSTypes } from './types/actions/ws-types';
+
+import { Action, ActionCreator } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export type AppThunk<ReturnType = void> = ActionCreator<
+  ThunkAction<ReturnType, Action, RootState, TApplicationActions>
+>;
+
+export type TAllIngredientsState = {
+  ingredients: TBaseIngredient[];
+  ingredientsSort: TBaseIngredient[];
+  buns: TBaseIngredient[];
+  sauces: TBaseIngredient[];
+  mainIngredients: TBaseIngredient[];
+  allIngredientsError: string;
+  activeTab: string;
+}
+
 export type TCurrentIngredientState = {
     currentIngredient: TBaseIngredient;
     ingredientModalVisibility: boolean;
@@ -7,7 +34,7 @@ export type TCurrentIngredientState = {
   export type TBaseIngredient = {
     readonly calories: number;
     readonly carbohydrates: number;
-    readonly count: number;
+    count: number;
     readonly fat: number;
     readonly image: string;
     readonly image_large: string;
@@ -20,6 +47,13 @@ export type TCurrentIngredientState = {
     readonly _id: string;
   }
 
+  export type TCatType = {
+    catName: string
+    catType: string
+    itemType: string
+    catData: TBaseIngredient[]
+  }
+  
   export type TCurrentIngredient = {
     item: TBaseIngredient
   }
@@ -44,6 +78,41 @@ export type TCurrentIngredientState = {
     reset_password_success: boolean;
     delete_user_success: boolean;
   }
+
+
+  export type TOrderState = {
+    orderNumber: number;
+    orderError: string;
+    orderModalVisibility: boolean;
+    placeOrder?: undefined
+  }
+
+
+export type TIngredientsQtyItem = {
+  item: string;
+  amount: number;
+}
+export type TIngredientsQtyData = TIngredientsQtyItem[];
+
+
+export type TProfileNavigationBar = {
+  readonly hint: string
+}
+
+export type TScoreBoard = {
+  readonly data: TResponseData;
+}
+
+
+
+export type TBurgerIngredients = {
+  openModal: (currentIngredient: string[]) => void;
+}
+
+export type TIngredientsItem = TBurgerIngredients & {
+  item: TBaseIngredient;
+  counter?: number;
+}
 
 
   export type TConstructorIngredient = TBaseIngredient & {
@@ -112,9 +181,30 @@ export type TApiResponse = Response & {
     orderNumber: number;
   }
 
+  export type TModalOrderCard = {
+    readonly item: TConstructorIngredient | undefined;
+    readonly amount: number;
+    readonly currency: number;
+  }
+  
+  export type TModalOrderInfo = {
+    readonly isPage: boolean;
+  }
+  
+  export type TOrderCard = {
+    readonly order: TResponseOrderItem;
+    readonly isPersonalOrders?: boolean;
+  }
+  
+  export type TOrderFeed = {
+    readonly data: TResponseOrderItem[];
+    readonly pathname: string;
+    readonly isFeed: boolean;
+  }
+
 
   export type TBurgerIngredientCart = {
-    openModal: TOpenModal;
+    openModal: (TOpenModal:TBaseIngredient)=>void;
     item: TBaseIngredient
   }
 
@@ -144,4 +234,50 @@ export type TApiResponse = Response & {
     isModalVisible: boolean;
     title: string;
     closeModal: ()=>void
+  }
+
+  type TOrderOwner = {
+    name: string,
+    email: string,
+    createdAt: string,
+    updatedAt: string
+  }
+
+  type TOrder = {
+    createdAt: string,
+    ingredients: TBaseIngredient[]
+    name: string
+    number: number
+    owner: TOrderOwner
+    price: number
+    status: string
+    updatedAt: string
+    _id: string
+  }
+  
+  export type TOrderData = {
+    name: string,
+    order: TOrder
+  }
+
+  //ws
+  export type TResponseData = {
+    orders: ReadonlyArray<TResponseOrderItem>;
+    total: number;
+    totalToday: number;
+  }
+  
+  export type TResponseOrderItem = {
+    ingredients: ReadonlyArray<string>;
+    _id: string;
+    status: string;
+    number: number;
+    createdAt: string;
+    updatedAt: string;
+    name: string;
+  }
+
+  export type TProfilePage = {
+    hint: string;
+    children: React.ReactNode;
   }

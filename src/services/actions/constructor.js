@@ -1,5 +1,0 @@
-export const SET_ITEM = 'SET_ITEM';
-export const REMOVE_ITEM = 'REMOVE_ITEM';
-export const SEQUENCE_ELEMENTS = 'SEQUENCE_ELEMENTS';
-export const SET_BUN = 'SET_BUN';
-export const CLEAR_INGREDIENTS = 'CLEAR_INGREDIENTS';

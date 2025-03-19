@@ -8,18 +8,23 @@ import {
     ORDER_SUBMIT_FAILURE,
     SET_ORDER_MODAL_VISIBLE,
     SET_ORDER_MODAL_INVISIBLE
-  } from '../actions/order';
+  } from '../../utils/commons';
 
-const init = {
+  import { TInitialOrderState,
+  } from '../../utils/types/reducers/reducers-types'
+
+  import { TOrderTypes } from '../../utils/types/actions/order-types'
+
+const init:TInitialOrderState = {
     orderName: '',
-    orderNumber: '',
+    orderNumber: null,
     orderRequestLoad: false,
     orderRequestErr: false,
     orderDetailsModal: false,
     orderModalVisibility: false
   }
 
-export const orderReducer = (store = init, action) => {
+export const orderReducer = (store = init, action:TOrderTypes) => {
     switch (action.type) {
       case SET_ORDER_DATA: {
         return {

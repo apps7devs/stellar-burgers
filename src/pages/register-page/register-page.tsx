@@ -1,10 +1,10 @@
 import React, {ChangeEvent, FormEvent } from 'react';
 import styles from './register-page.module.scss';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { register } from '../../services/actions/user';
-import { useDispatch, useSelector } from 'react-redux';
+import { register, clearRegistrationStateAction } from '../../services/actions/user';
+import { useDispatch, useSelector } from '../../services/hooks';
+import { TUserState } from '../../utils/types';
 import { useNavigate } from 'react-router-dom';
-import { CLEAR_REGISTRATION_STATE } from '../../services/actions/user';
 import EnteringForm from '../../components/entering-form/entering-form';
 
 const RegisterPage = (): React.JSX.Element => {
@@ -14,7 +14,7 @@ const RegisterPage = (): React.JSX.Element => {
   const [password, setPassword] = React.useState('');
   const navigate = useNavigate();
   const { register_success, registerError } = useSelector(
-    state => state.user
+    (state):TUserState => state.user!
   );
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +45,7 @@ const RegisterPage = (): React.JSX.Element => {
     if (register_success) {
       //navigate.replace({pathname: '/login'})
       navigate('/login', {replace: true})
-      dispatch({ type: CLEAR_REGISTRATION_STATE })
+      dispatch(clearRegistrationStateAction())
     }
   }, [navigate, register_success])
 
@@ -56,6 +56,7 @@ const RegisterPage = (): React.JSX.Element => {
         buttonTitle="Зарегистрироваться"
         onSubmit={onSubmit}
       >
+        { /* @ts-ignore */}
         <Input
           type="text"
           name="name"
@@ -65,6 +66,7 @@ const RegisterPage = (): React.JSX.Element => {
           onChange={handleNameChange}
         />
         <div className="mt-6 mb-6">
+          { /* @ts-ignore */}
           <Input
             type="email"
             name="email"
@@ -75,6 +77,7 @@ const RegisterPage = (): React.JSX.Element => {
           />
         </div>
         <div className="mt-6 mb-6">
+          { /* @ts-ignore */}
           <Input
             type="password"
             name="password"

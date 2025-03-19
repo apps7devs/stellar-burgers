@@ -1,10 +1,8 @@
 .section {
   margin: 120px auto 0;
-  min-height: 320px;
-  width: 860px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  max-height: calc(100vh - 210px);
 }
 
 .navBar {
