@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from '../../services/hooks';
 import { TUserState } from '../../utils/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-
 const LoginPage = (): React.JSX.Element => {
   let location = useLocation();
   const navigate = useNavigate();
@@ -27,7 +26,6 @@ const LoginPage = (): React.JSX.Element => {
       }
     }
   }, [isLoggedIn])
-
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);

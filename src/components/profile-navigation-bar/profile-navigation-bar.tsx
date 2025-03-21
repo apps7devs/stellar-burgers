@@ -4,8 +4,6 @@ import { deleteUser, clearSessionTerminationStateAction } from '../../services/a
 import { useDispatch } from '../../services/hooks';
 import { TProfileNavigationBar } from '../../utils/types';
 
-
-
 export const ProfileNavigationBar = ({ hint }:TProfileNavigationBar): React.JSX.Element => {
 
 
