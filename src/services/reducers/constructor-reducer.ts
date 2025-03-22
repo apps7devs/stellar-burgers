@@ -12,7 +12,7 @@ import {
     TInitConstructorState
   } from '../../utils/types/reducers/reducers-types';
 
-  const init:TInitConstructorState = {
+  export const init:TInitConstructorState = {
     bun: undefined,
     ingredients: []
   }

@@ -1,6 +1,5 @@
 import {api as apiUrl, fetchStatus} from '../../utils/commons'
 import { AppDispatch } from '../../utils/types';
-import { getCookie } from '../../utils/cookie';
 import { TPlaceOrder } from '../../utils/types/actions/order-types';
 
 import {
@@ -15,30 +14,30 @@ import {
 } from '../../utils/commons'
 
 import {
+  ISetOrderModalVisible,
   ISetOrderModalInvisible,
   IClearCounters,
   ISetOrderDetailsReset,
-  IClearIngredients
+  IClearIngredients,
+  ISetOrderData
 } from '../../utils/types/actions/order-types'
 
-import { TOrderData } from '../../utils/types';
-
-const orderSetOrderDataAction = (data:TOrderData) => ({
+export const orderSetOrderDataAction = (data:ISetOrderData) => ({
   type: SET_ORDER_DATA,
   orderData: data
 });
 
-const orderRequestErrAction = () => ({
+export const orderRequestErrAction = () => ({
   type: ORDER_REQUEST_ERR,
   status: true
 });
 
-const orderRequestLoadAction = () => ({
+export const orderRequestLoadAction = () => ({
   type: ORDER_REQUEST_LOAD,
   status: false
 });
 
-const setOrderModalVisibleAction = () => ({
+export const setOrderModalVisibleAction = (): ISetOrderModalVisible => ({
   type: SET_ORDER_MODAL_VISIBLE,
   show: true
 });
@@ -69,7 +68,6 @@ export const placeOrder:TPlaceOrder = (orderBody) => {
       method: 'POST',
       headers: {
        'Content-Type': 'application/json',
-       //authorization: `Bearer ${getCookie('token')}`
        authorization: `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify({ "ingredients": orderBody }),

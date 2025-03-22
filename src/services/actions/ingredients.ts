@@ -1,16 +1,14 @@
 import {api as apiUrl, fetchStatus} from '../../utils/commons'
 import {TBaseIngredient, TConstructorIngredient} from '../../utils/types'
-import { AppDispatch, AppThunk } from '../../utils/types';
+import { AppDispatch } from '../../utils/types';
 
 import { 
   SET_INGREDIENTS,
   SET_ERR_INGREDIENTS,
   SET_LOAD_INGREDIENTS,
   SET_ACTIVE_TAB,
-  // //SET_SELECT_INGRIDIENT,
   COUNTER_INCRM,
   COUNTER_DECRM,
-  // COUNTERS_RESET,
   SET_BUN,
   SEQUENCE_ELEMENTS,
   SET_ITEM,
@@ -86,8 +84,6 @@ export const setCurrentTabAction = (data: string): ISetActiveTab => ({
   activeTab: data
 });
 
-
-
 export function getIngredients() {
   return function (dispatch:AppDispatch) {
     fetch(`${apiUrl}/ingredients`)
@@ -106,9 +102,6 @@ export function getIngredients() {
       })
       .finally(() => {
         dispatch(setLoadIngredientsAction())
-        // setTimeout(() => {
-        //     dispatch(setLoadIngredientsAction())
-        // }, 1000);//сервер предоставляющий api "слишком" шустрый =), лоадера не видно
       })
   }
 }

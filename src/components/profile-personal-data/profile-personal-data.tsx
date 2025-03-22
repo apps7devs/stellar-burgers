@@ -5,7 +5,6 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import { updateUser } from '../../services/actions/user';
 import { useDispatch, useSelector } from '../../services/hooks';
 
-
 export const ProfilePersonalData= (): React.JSX.Element => {
 
   const { user } = useSelector(

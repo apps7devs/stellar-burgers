@@ -6,7 +6,6 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAILURE,
   SET_LOGIN_STATE,
-  //CLEAR_LOGIN_STATE,
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAILURE,
   SET_FORGOT_PASSWORD_STATE,
@@ -29,7 +28,7 @@ import {
   SET_LOGGING_IN
 } from '../../utils/commons';
 
-const initialUserState = {
+export const initialUserState = {
   user: {},
   isLoggedIn: false,
   loggingIn: false,
@@ -97,13 +96,6 @@ export const userReducer = (state: TInitialUserState = initialUserState, action:
         login_success: action.login_success
       }
     }
-    /*case CLEAR_LOGIN_STATE: {
-      return {
-        ...state,
-        loginError: "",
-        login_success: false
-      }
-    }*/
     case FORGOT_PASSWORD_SUCCESS: {
       return {
         ...state,

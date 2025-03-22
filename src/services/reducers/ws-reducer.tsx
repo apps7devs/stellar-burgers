@@ -9,7 +9,7 @@ import {
   SET_FEED_MODAL_VISIBILITY
 } from '../../utils/commons';
 
-const initialWSState: TWSState = {
+export const initialWSState: TWSState = {
   wsConnected: false,
   responseData: null,
   wsError: undefined,

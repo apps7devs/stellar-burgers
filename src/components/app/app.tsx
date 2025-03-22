@@ -37,7 +37,6 @@ import {
 import { getUser } from '../../services/actions/user';
 //routing
 import { BrowserRouter as Router,  Route, Routes, useNavigate, useLocation } from 'react-router-dom';
-import { getCookie } from '../../utils/cookie';
 
 import { TInitialCurrentIngrState  } from '../../utils/types/reducers/reducers-types';
 
@@ -135,21 +134,17 @@ function App() {
   );
 
   useEffect(() => {
-    //if (getCookie('token') && !isLoggedIn) {
     if (localStorage.getItem('token') && !isLoggedIn) {
       dispatch(getUser())
     }
   }, [])
 
- 
-  
   //get data ingridients from api
   const [fetchCounter, setFetchCounter] = useState(0)
   const {errIngredients, loadIngredients} = useSelector(
     state => state.allIngredients!
   )
   useEffect(() => { dispatch(getIngredients()) }, [fetchCounter])
-
 
   return (
     <div className={styles.App}>

@@ -10,18 +10,18 @@ const ModalOverlay = ({ children, isModalVisible, closeModal }: TModalOverLay): 
     }
   }
 
-  const closeModelEsc = (e: KeyboardEvent) => {
+  const closeModalEsc = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       closeModal()
     }
   }  
   useEffect(() => {
-    document.addEventListener('keydown', closeModelEsc)
-    return  () => document.removeEventListener('keydown', closeModelEsc)
+    document.addEventListener('keydown', closeModalEsc)
+    return  () => document.removeEventListener('keydown', closeModalEsc)
   }, [])
 
   return (
-    <div className={`${styles.container} ${isModalVisible ? styles.containerActive : ''}`} onClick={(e)=>closeModelOvl(e)}>
+    <div className={`${styles.container} ${isModalVisible ? styles.containerActive : ''}`} onClick={(e)=>closeModelOvl(e)} data-testid="cy-close-modal-ovl">
       {children}
     </div>
   )

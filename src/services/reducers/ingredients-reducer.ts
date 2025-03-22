@@ -17,7 +17,7 @@ import {
   TInitialAllIngredientsState,
 } from '../../utils/types/reducers/reducers-types';
 
-  const init:TInitialAllIngredientsState = {
+ export const init:TInitialAllIngredientsState = {
     activeTab: 'buns',
     errIngredients: false,
     loadIngredients: true,

@@ -10,7 +10,6 @@ import { useLocation, Link } from 'react-router-dom';
 
 import {TBurgerIngredientCart} from '../../../utils/types'
 
-
 const IngredientCart = ({ item, openModal }: TBurgerIngredientCart): React.JSX.Element => {
 
   const location = useLocation()
@@ -24,6 +23,8 @@ const IngredientCart = ({ item, openModal }: TBurgerIngredientCart): React.JSX.E
     })
   });
 
+  const testid =
+  item.type === 'bun' ? 'cy-ingredient-bun' : 'cy-ingredient-card'
 
   return (
     <Link
@@ -31,7 +32,7 @@ const IngredientCart = ({ item, openModal }: TBurgerIngredientCart): React.JSX.E
       to={`ingredients/${ingredientId}`}
       state={{ background: location }}
     >
-    <article className={`${styles.ingredientCart} ${isDrag && styles.cartOnDrag}`} ref={dragRef} onClick={() => openModal(item)}>
+    <article className={`${styles.ingredientCart} ${isDrag && styles.cartOnDrag}`} ref={dragRef} onClick={() => openModal(item)} data-testid={testid}>
       <img alt={item.name} src={item.image} className={styles.image} />
       <div className={`${styles.cost} mt-1 mb-1`}>
         <h4 className="text text_type_digits-small mr-2">{item.price}</h4>

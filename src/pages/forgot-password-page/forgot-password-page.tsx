@@ -6,7 +6,6 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { TUserState } from '../../utils/types';
 import { forgotPassword, clearForgotPasswordStateAction } from '../../services/actions/user';
-import { getCookie } from '../../utils/cookie';
 
 const ForgotPasswordPage = (): React.JSX.Element => {
   const [email, setEmail] = React.useState<string>('');
@@ -32,7 +31,6 @@ const ForgotPasswordPage = (): React.JSX.Element => {
     dispatch(forgotPassword(email));
   }
 
-  //if (getCookie('token')) {
   if (localStorage.getItem('token')) {
     return (
       <Navigate to='/'/>

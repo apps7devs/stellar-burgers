@@ -56,8 +56,14 @@ const BurgerConstructorItem = ({ item, index, isTop, isBottom, isLocked, moveIte
     dispatch(counterDecrmAction(item))
   }
 
+  const testid = {
+    top: 'cy-constructor-bun-top',
+    bottom: 'cy-constructor-bun-bottom',
+    default: 'cy-constructor-ingredient',
+  }[isTop ? 'top' : isBottom ? 'bottom' : 'default']
+
   return (
-    <div className={`${styles.item} ${isTop || isBottom ? styles.borderItem : ''}`} ref={isLocked ? null : ref} style={{ opacity }}>
+    <div className={`${styles.item} ${isTop || isBottom ? styles.borderItem : ''}`} ref={isLocked ? null : ref} style={{ opacity }} data-testid={testid}>
       {!isLocked && <DragIcon type="primary"/>}
       <ConstructorElement
         /* @ts-ignore */

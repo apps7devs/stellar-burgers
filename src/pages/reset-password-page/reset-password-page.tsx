@@ -7,7 +7,6 @@ import styles from './reset-password-page.module.scss';
 import EnteringForm from '../../components/entering-form/entering-form';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
-
 const ResetPasswordPage = (): React.JSX.Element => {
 
   const [password, setPassword] = React.useState('');

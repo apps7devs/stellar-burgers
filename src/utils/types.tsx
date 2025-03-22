@@ -79,7 +79,6 @@ export type TCurrentIngredientState = {
     delete_user_success: boolean;
   }
 
-
   export type TOrderState = {
     orderNumber: number;
     orderError: string;
@@ -87,13 +86,11 @@ export type TCurrentIngredientState = {
     placeOrder?: undefined
   }
 
-
 export type TIngredientsQtyItem = {
   item: string;
   amount: number;
 }
 export type TIngredientsQtyData = TIngredientsQtyItem[];
-
 
 export type TProfileNavigationBar = {
   readonly hint: string
@@ -103,8 +100,6 @@ export type TScoreBoard = {
   readonly data: TResponseData;
 }
 
-
-
 export type TBurgerIngredients = {
   openModal: (currentIngredient: string[]) => void;
 }
@@ -113,7 +108,6 @@ export type TIngredientsItem = TBurgerIngredients & {
   item: TBaseIngredient;
   counter?: number;
 }
-
 
   export type TConstructorIngredient = TBaseIngredient & {
     uid?: string;
@@ -133,17 +127,6 @@ export type TIngredientsItem = TBurgerIngredients & {
     isLocked?: boolean;
     moveItem: (dragIndex: number, hoverIndex: number) => void;
   }
-
-type TCookieProps = {
-  [key: string]: number | Date | string | boolean;
-  expires?: any;
-}
-
-export type TGetCookie = (name: string) => string | undefined;
-
-export type TDeleteCookie = (name: string) => void;
-
-export type TSetCookie = (name: string, value: string, props?: TCookieProps) => void;
 
 export type TApiResponse = Response & {
     readonly refreshToken?: string;

@@ -19,6 +19,18 @@ import Loader from '../loader/loader';
 
 import { useNavigate } from 'react-router-dom';
 
+import {
+  setOrderModalInvisibleAction,
+  clearCountersAction,
+  orderDetailsResetAction,
+  clearIngredientsAction
+} from '../../services/actions/order'
+
+import { TOrderState } from '../../utils/types';
+
+import Modal from '../../components/modal/modal';
+import ModalOrder from '../../components/modal-order/modal-order';
+
 
 const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element => {
   const { isLoggedIn } = useSelector(
@@ -31,6 +43,10 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
   const { bun, ingredients } = useSelector(
     (store): TBurgerConstructorState => store.constructorOrder!
   );
+
+    const { orderNumber, orderModalVisibility } = useSelector(
+      (state):TOrderState => state.placeOrder!
+    );
 
   //dropPlace works
   const [{ canDrop }, dropTarget] = useDrop({
@@ -70,7 +86,6 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
       return
     }
   };
-  
 
   const costTotal = useMemo(() => {
     if (ingredients && bun) {
@@ -82,12 +97,11 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
     }
  }, [ingredients, bun])
 
-
   const {orderRequestLoad} = useSelector((store):TInitialOrderState=>store.placeOrder!);
   
   const placeOrderRun = () => {
     const bodyOrder: string[] = [bun._id, ...ingredients.map((item:TConstructorIngredient) => item._id), bun._id];
-
+    
     if (isLoggedIn) {
       ingredients && openModal(bodyOrder)
     } else {
@@ -95,9 +109,16 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
     }
   }
 
+  const handleCloseOrderModal = () => {
+    dispatch(setOrderModalInvisibleAction())
+    dispatch(clearCountersAction())
+    dispatch(clearIngredientsAction())
+    dispatch(orderDetailsResetAction())
+  }
+
   return(
     <section className={`${styles.section} mt-15 ml-10 `}>
-      <div className={`pt-10 pb-10 ${styles.dropPlace} ${canDrop && styles.dropPlaceActive}`} ref={dropTarget}>
+      <div className={`pt-10 pb-10 ${styles.dropPlace} ${canDrop && styles.dropPlaceActive}`} ref={dropTarget} data-testid="cy-constructor-drop-area">
       {
         (!bun && !ingredients.length ) && (
           <p className='ml-10 text text_type_main-medium text_color_inactive'>Перетащите ингредиенты сюда</p>
@@ -146,10 +167,21 @@ const BurgerConstructor = ({ openModal }: TBurgerIngredients): React.JSX.Element
         )}
         <p className="text text_type_digits-medium mr-2">{costTotal}</p>
         <CurrencyIcon type="primary" className="mr-10" />
-        <Button type="primary" size="large" htmlType="button" onClick={placeOrderRun} disabled={!costTotal}>
+        <Button type="primary" size="large" htmlType="button" onClick={placeOrderRun} disabled={!costTotal} data-testid="cy-constructor-action-order">
           Оформить заказ
         </Button>
       </div>
+
+      {orderModalVisibility && 
+        (<Modal
+          title=''
+          isModalVisible={orderModalVisibility}
+          closeModal={handleCloseOrderModal}
+        >
+          <ModalOrder
+            orderNumber={orderNumber}
+          />
+        </Modal>)}
     </section>
   )
 }

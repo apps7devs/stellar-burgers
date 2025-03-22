@@ -5,7 +5,7 @@ import { orderReducer }       from './order-reducer'
 import { userReducer }       from './user-reducer'
 import { wsReducer } from './ws-reducer';
 
-import {currentIngredientReducer} from './reducers'
+import {currentIngredientReducer} from './current-ingredient-reducer'
 
 
 const rootReducer = combineReducers({
