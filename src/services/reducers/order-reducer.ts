@@ -2,10 +2,7 @@ import {
     ORDER_REQUEST_LOAD,
     ORDER_REQUEST_ERR,
     SET_ORDER_DATA,
-    ORDER_DETAILS_MODAL,
     ORDER_DETAILS_RESET,
-    ORDER_SUBMIT_SUCCESS,
-    ORDER_SUBMIT_FAILURE,
     SET_ORDER_MODAL_VISIBLE,
     SET_ORDER_MODAL_INVISIBLE
   } from '../../utils/commons';
@@ -15,7 +12,7 @@ import {
 
   import { TOrderTypes } from '../../utils/types/actions/order-types'
 
-const init:TInitialOrderState = {
+export const init:TInitialOrderState = {
     orderName: '',
     orderNumber: null,
     orderRequestLoad: false,
@@ -45,29 +42,10 @@ export const orderReducer = (store = init, action:TOrderTypes) => {
           orderRequestErr: action.status
         }
       }
-      case ORDER_DETAILS_MODAL: {
-        return {
-          ...store,
-          orderDetailsModal: action.show
-        }
-      }
       case ORDER_DETAILS_RESET: {
         return {
           ...store,
           ...init
-        }
-      }
-      case ORDER_SUBMIT_SUCCESS: {
-        return {
-          ...store,
-          orderNumber: action.number,
-          orderError: ''
-        }
-      }
-      case ORDER_SUBMIT_FAILURE: {
-        return {
-          ...store,
-          orderError: action.error
         }
       }
       case SET_ORDER_MODAL_VISIBLE: {

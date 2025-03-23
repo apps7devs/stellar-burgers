@@ -5,9 +5,7 @@ import { ScoreBoard } from '../../components/score-board/score-board';
 import { WSConnectionStartAction, WSConnectionClosedAction } from '../../services/actions/ws-actions';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { TWSState } from '../../utils/types/reducers/ws-reducer-types';
-
 import Loader from '../../components/loader/loader'
-
 
 export const FeedPage = (): React.JSX.Element => {
   const dispatch = useDispatch();

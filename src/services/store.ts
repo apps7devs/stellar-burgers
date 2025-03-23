@@ -17,12 +17,10 @@ import {
 
 const wsActions: TWsActions = {
   wsInit: WS_CONNECTION_START,
-  // wsSendMessage: WS_SEND_MESSAGE,
   onOpen: WS_CONNECTION_SUCCESS,
   onClose: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_ERROR,
-  onMessage: WS_GET_MESSAGE,
-  // wsPingPong: WS_SEND_PONG,
+  onMessage: WS_GET_MESSAGE
 };
 
 declare global {

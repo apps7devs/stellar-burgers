@@ -7,7 +7,7 @@ const IngredientDetails = ({item}: TCurrentIngredient): React.JSX.Element => {
   return (
     <article className={`${styles.ingredientCart}`}>
       <img alt={item.name} src={item.image_large} className={`${styles.image} pb-4`} />
-      <h4 className={`${styles.name} text text_type_main-medium pb-8`}>{item.name}</h4>
+      <h4 className={`${styles.name} text text_type_main-medium pb-8`} data-testid="cy-ingredient-details-name">{item.name}</h4>
       <ul className={`${styles.details} text text_type_main-default text_color_inactive pb-15`}>
         <li><span>Калории,ккал</span><span className="text text_type_digits-default">{item.calories}</span></li>
         <li><span>Белки, г</span><span className="text text_type_digits-default">{item.proteins}</span></li>

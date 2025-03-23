@@ -1,14 +1,13 @@
 import {
     SET_CURRENT_INGREDIENT,
     DELETE_CURRENT_INGREDIENT,
-    SET_INGREDIENT_MODAL_VISIBLE,
-    SET_INGREDIENT_MODAL_INVISIBLE
+    SET_INGREDIENT_MODAL_VISIBLE
   } from '../../utils/commons';
 
   import { TInitialCurrentIngrState  } from '../../utils/types/reducers/reducers-types';
   import { TAllIngredientsTypes } from '../../utils/types/actions/commons-types';
 
-const initialCurrentIngrState: TInitialCurrentIngrState = {
+export const initialCurrentIngrState: TInitialCurrentIngrState = {
     currentIngredient: undefined,
     ingredientModalVisibility: false
   }
@@ -31,12 +30,6 @@ const initialCurrentIngrState: TInitialCurrentIngrState = {
         return {
           ...state,
           ingredientModalVisibility: true
-        }
-      }
-      case SET_INGREDIENT_MODAL_INVISIBLE: {
-        return {
-          ...state,
-          ingredientModalVisibility: false
         }
       }
       default: {

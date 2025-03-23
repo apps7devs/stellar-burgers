@@ -18,7 +18,7 @@ const Modal = ({children, title, isModalVisible, closeModal}: TModal): React.JSX
     >
       <div className={styles.modalContainer}>
         <header className={`${styles.headerModal} ml-10 mr-10 mt-10`}>
-          <button className={styles.close} onClick={closeModal}>
+          <button className={styles.close} onClick={closeModal} data-testid="cy-close-modal-button">
             <CloseIcon type="primary" />
           </button>
           {title && <h2 className={`${styles.title} text text_type_main-large`}>{title}</h2>}

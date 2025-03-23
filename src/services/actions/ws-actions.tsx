@@ -18,14 +18,12 @@ import {
   SET_FEED_MODAL_VISIBILITY,
 } from '../../utils/commons';
 
-
 export const WSConnectionStartAction = (payload?: string): IWSConnectionStartAction => {
   return {
     type: WS_CONNECTION_START,
     payload: payload
   }
 };
-
 
 export const WSConnectionSuccessAction = (): IWSConnectionSuccessAction => ({
   type: WS_CONNECTION_SUCCESS
